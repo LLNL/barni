@@ -94,9 +94,7 @@ def smooth(signal, lmbda):
             A[2, i] = -c
             c2 = c
         A[1, -1] = 1 + c2
-
     else:
-
         c2 = 0
         for i in range(0, n - 1):
             # Lambda will change with bin so that the filtering smoothness
@@ -109,6 +107,5 @@ def smooth(signal, lmbda):
             A[2, i] = -c    # Lower
             c2 = c
         A[1, -1] = 1 + c2
-
     return solve_banded((1, 1), A, np.array(signal, np.float))
 

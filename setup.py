@@ -1,6 +1,8 @@
 from setuptools import setup, Extension
-#import numpy.distutils.misc_util
+from Cython.Build import cythonize, build_ext
+import glob
 
+extensions = [Extension("extensions",sources=glob.glob("barni/extensions/*.pyx"))]
 
 setup(
     name='BARNI',
@@ -26,6 +28,11 @@ setup(
         'pyyaml>=5.1',
         'pandas>=0.25'
     ],
+    setup_requires=[
+        'cython>=0.2',
+    ],
     test_suite='nose2.collector.collector',
+    ext_modules = extensions,
+    cmdclass={'build_ext': build_ext},
     # include_dirs=numpy.distutils.misc_util.get_numpy_include_dirs()
 )

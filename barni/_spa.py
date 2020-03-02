@@ -50,7 +50,7 @@ from ._reader import registerReader
 from . import _architecture as arch
 from ._spectrum import Spectrum
 from ._smoothing import smooth
-from ._math import SolveAugmentedTridiag, gauss_pdf
+from ._math import SolveAugmentedTridiag, gauss_pdf, convert2tri
 
 __all__ = ['SmoothPeakAnalysis', 'computeBaseline']
 
@@ -189,10 +189,8 @@ def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
     Returns:
         Estimate of the baseline, intensity, peaks and response.
     """
-    # FIXME: this can be done much better with a specialized solver.
 
     # Collect the peak shapes from the peak list
-
     shapes = [i.response for i in peaks]
     n1 = len(spectrum.counts)
     n2 = len(shapes)
@@ -200,36 +198,28 @@ def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
         S = np.zeros((n1,1))
     else:
         S = np.array(shapes).T
-    # Allocate space for problem
-    n = n1 + n2
-    A = np.zeros((n, n))
-    B = np.zeros((n, 1))
+    A11 = np.zeros((3, n1))
     # Set up the tridiagonal portion
     c2 = 0
     c = 1
+    # FIXME: store the tridiagonal matrix in matrix diagonal ordered form used in scipy banded solvers
     for i in range(0, n1 - 1):
         if i <= lld:
             c = 0
         else:
             c = i * mu
-        A[i, i] = 1 + c + c2
-        A[i, i + 1] = -c
-        A[i + 1, i] = -c
+        A11[1, i] = 1 + c + c2
+        A11[0, i] = -c # upper
+        A11[2, i+1] = -c # lower
         c2 = c
-    A[i, i] = 1 - c2
+    A11[1, -1] = 1 - c2
     # Populate the unfolding portion
-    B[0:n1] = np.array([spectrum.counts]).T
-    B[n1:] = S.T @ B[0:n1]
-    A[n1:, 0:n1] = S.T
-    A[0:n1, n1:] = S
-    A[n1:, n1:] = S.T @ S
+    B1= np.array([spectrum.counts]).T
+    B2 = S.T @ B1
+    A21 = S.T.copy()
+    A22 = S.T @ S
+    A12 = S
     # turn the triag into a diag with 1 in main diag
-    A11 = A[:n1,:n1]
-    A12 = A[:n1,n1:]
-    A21 = A[n1:,:n1]
-    A22 = A[n1:,n1:]
-    B1  = B[:n1]
-    B2  = B[n1:]
     solver = SolveAugmentedTridiag(A11, A12, A21, A22, B1, B2)
     solver.solve()
     # solve for baseline

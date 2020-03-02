@@ -34,9 +34,20 @@ Module for various math routines.
 
 import scipy
 import numpy as np
+from . import extensions as ext
 
 __all__ = ['SolveAugmentedTridiag']
 
+
+# FIXME: store the tridiagonal matrix in matrix diagonal ordered form used in scipy banded solvers
+def convert2tri(matrix):
+  """ Converts matrix into tridiagonal with 3 rows and same number of columns.
+  """
+  tridiag = np.zeros((3, matrix.shape[1]))
+  tridiag[0,:-1] = matrix.diagonal(-1).copy()
+  tridiag[1,:] = matrix.diagonal(0).copy()
+  tridiag[2,1:] = matrix.diagonal(1).copy()
+  return tridiag
 
 class SolveAugmentedTridiag():
     """
@@ -45,9 +56,24 @@ class SolveAugmentedTridiag():
 
     def __init__(self, A11, A12, A21, A22, B1, B2):
         """
-        A11 is a tridiagonal matrix, all else are full rank
-        Bs are vectors
+        Solves the special problem of augmented matricies were
+        A11 is tridiagonal and all others are full rank. Solutions
+        are stored in C1 and C2.
+
+        B1   A11 | A12   C1
+        -- = ---   --- * --
+        B2   A21 | A22   C2
         """
+        if 3 != A11.shape[0]:
+            raise ValueError("A11 matrix must be a tridiagonal")
+        if A11.shape[1] != A21.shape[1]:
+            raise ValueError("A11 and A21 must have the same number of columns")
+        if A12.shape[1] != A22.shape[1]:
+            raise ValueError("A12 and A22 must have the same number of columns")
+        if B1.shape[0] != A12.shape[0]:
+            raise ValueError("B1 and A12 must have the same number of rows")
+        if B2.shape[0] != A21.shape[0] or B2.shape[0] != A22.shape[0]:
+            raise ValueError("B2, A21 and A22 must have the same number of rows")
         self.A11 = A11
         self.A12 = A12
         self.A21 = A21
@@ -56,10 +82,6 @@ class SolveAugmentedTridiag():
         self.B2 = B2
         self.C1 = np.zeros(B1.size)
         self.C2 = np.zeros(B2.size)
-        self.toprows = A11.shape[0]
-        self.bottomrows = A21.shape[0]
-        self.leftcolumns = A11.shape[1]
-        self.rightcolumns = A12.shape[1]
 
     def solve(self):
         self.reduceTridiag()
@@ -71,30 +93,12 @@ class SolveAugmentedTridiag():
     def reduceTridiag(self):
         """ Reduces the tridiag matrix to a upper diag in echelon form
         """
-        for i in range(self.toprows - 1):
-            f = (self.A11[i + 1, i] / self.A11[i, i])  # (c1 / a1)
-            self.A11[i + 1, :] -= self.A11[i, :] * f
-            self.A12[i + 1, :] -= self.A12[i, :] * f
-            self.B1[i + 1, :] -= self.B1[i, :] * f
-            f = 1 / self.A11[i, i]
-            self.A11[i, :] *= f
-            self.A12[i, :] *= f
-            self.B1[i, :] *= f
-        # special treatment for last row
-        i += 1;
-        f = 1 / self.A11[i, i]
-        self.A11[i, :] *= f
-        self.A12[i, :] *= f
-        self.B1[i, :] *= f
+        ext.math.reduce_tridiag(self.A11, self.A12, self.B1)
 
     def zeroLower(self):
         """ Zero out lower left A21 matrix
         """
-        for i in range(self.toprows):  # the number of bins
-            f = self.A21[:, i][:,None]
-            self.A22[:, :] -= self.A12[i, :] * f
-            self.B2[:, :] -= self.B1[i, :] * f
-            self.A21[:, :] -= self.A11[i, :] * f
+        ext.math.zero_lower(self.A11, self.A12, self.A21, self.A22, self.B1, self.B2)
         if not np.isclose(self.A21.sum(), 0):
             raise ValueError("Lower-left matrix (A21) not eliminated")
 
@@ -106,11 +110,11 @@ class SolveAugmentedTridiag():
         self.B1 -= (self.A12 @ self.C2).reshape(-1, 1)
 
     def solveUpper(self):
-        A_diag = np.zeros((2, self.toprows))
-        A_diag[0, 1:] = self.A11.diagonal(1)
-        A_diag[1, :] = self.A11.diagonal(0)
-        # solve for baseline
-        self.C1 = scipy.linalg.solve_banded((0, 1), A_diag, self.B1)
+        # FIXME: store the tridiagonal matrix in matrix diagonal ordered form used in scipy banded solvers
+        ab = np.zeros((2, self.A11.shape[1]))
+        ab[0,1:] = self.A11[0,:-1]
+        ab[1,:] = self.A11[1]
+        self.C1 = scipy.linalg.solve_banded((0, 1), ab, self.B1)
 
 
 def gauss_pdf(x, mu, std):

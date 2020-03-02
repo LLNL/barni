@@ -66,12 +66,12 @@ def computeBaseline(y, mu=1):
         Baseline estimate and the slightly smoothed initial spectra.
     """
 
-    u = smooth(y, lambda p: p * mu * 0.05)
-    x = smooth(u, lambda p: p * mu)
+    u = smooth(y, mu * 0.05)
+    x = smooth(u,  mu)
     for i in range(0, 2):
         mu = mu / 2
         x = np.maximum(x, 0)
-        x = smooth(np.minimum(u - x, 0), lambda p: p * mu) + x
+        x = smooth(np.minimum(u - x, 0), mu) + x
     x = np.maximum(x, 0)
     return x, u
 
@@ -82,7 +82,7 @@ def getInitialPeaks(y, b, es, sensor=None, lld=45, mu=1):
        This is based on derivate based method of scanning for location inflection points.
     """
     #
-    u = smooth(y, lambda p: p * mu * 0.05)
+    u = smooth(y, mu * 0.05)
     s = u - b
     potential = []
     current = u[0] - b[0]

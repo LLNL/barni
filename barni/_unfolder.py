@@ -242,7 +242,7 @@ class UnfoldingPeakAnalysis(arch.PeakAnalysis):
         # detector resolution and the energy binning in practice
         if self.smoothingCoef:
             smoothedSpectrum = smooth(
-                sampleSpectrum, lambda x: self.smoothingCoef * x)
+                sampleSpectrum,  self.smoothingCoef)
         else:
             smoothedSpectrum = sampleSpectrum
 

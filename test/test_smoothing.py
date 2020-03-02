@@ -33,7 +33,7 @@ from barni import smooth
 class SmoothingTestCase(unittest.TestCase):
     def setUp(self):
         self.signal = [0,1,2,3,4,5]
-        self.lmbda = lambda p: p
+        self.lmbda = 1. #lambda p: p
         self.result = [0., 1.76047904, 2.52095808, 3.16167665, 3.64271457, 3.91417166]
 
     def test_roi(self):

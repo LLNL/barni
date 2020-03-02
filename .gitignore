@@ -4,6 +4,7 @@
 *.gzip
 *.gz
 *.swp
+*.so
 build
 dist
 *.egg-info
@@ -16,3 +17,4 @@ doc/_build
 *generated/
 work/
 pyinstaller/
+barni/extensions/*.c

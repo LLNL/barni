@@ -34,6 +34,7 @@ Collection of smoothing tools.
 
 import numpy as np
 from scipy.linalg import solve_banded
+from . import extensions as ext
 
 __all__ = ['smooth']
 
@@ -79,33 +80,6 @@ def smooth(signal, lmbda):
     """
     n = len(signal)
     A = np.zeros((3, n))
-
-    # Set up a tridiagonal problem
-    if hasattr(lmbda, '__float__'):
-        c2 = 0
-        for i in range(0, n - 1):
-            # Lambda will change with bin so that the filtering smoothness
-            # matches the peak width
-            c = lmbda
-            # The diagonal controls matching the inputs and
-            # the off diagonals hold the smoothing
-            A[1, i] = 1 + c + c2
-            A[0, i + 1] = -c
-            A[2, i] = -c
-            c2 = c
-        A[1, -1] = 1 + c2
-    else:
-        c2 = 0
-        for i in range(0, n - 1):
-            # Lambda will change with bin so that the filtering smoothness
-            # matches the peak width
-            c = lmbda(i)
-            # The diagonal controls matching the inputs and
-            # the off diagonals hold the smoothing
-            A[1, i] = 1 + c + c2  # Diagonal
-            A[0, i + 1] = -c  # Upper
-            A[2, i] = -c    # Lower
-            c2 = c
-        A[1, -1] = 1 + c2
+    ext.math.fill_smooth(A, lmbda)
     return solve_banded((1, 1), A, np.array(signal, np.float))
 

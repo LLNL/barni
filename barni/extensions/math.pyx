@@ -35,6 +35,28 @@ cimport cython
 @cython.boundscheck(False)  # Deactivate bounds checking
 @cython.wraparound(False)   # Deactivate negative indexing.
 
+def fill_smooth(double[:,:] A, double f):
+    """ Set up the smooth tridiagonal matrix, does not assume
+    Returns:
+    """
+    assert A.shape[0] == 3
+    cdef Py_ssize_t n = A.shape[1]
+    cdef int i
+    cdef double c2 = 0
+    cdef double c = 0
+    for i in range(0, n - 1):
+        # Lambda will change with bin so that the filtering smoothness
+        # matches the peak width
+        c = i * f
+        # The diagonal controls matching the inputs and
+        # the off diagonals hold the smoothing
+        A[1, i] = 1 + c + c2  # Diagonal
+        A[0, i + 1] = -c  # Upper
+        A[2, i] = -c  # Lower
+        c2 = c
+    i += 1
+    A[1, i] = 1 + c2
+    A[2, i] = 0
 
 def zero_lower(double[:,:] A11, double[:,:] A12, double[:,:] A21, double[:,:] A22, double[:,:] B1, double[:,:] B2):
     """ Zero out lower left A21 matrix, assuming A11 has been reduced to row echelon form.

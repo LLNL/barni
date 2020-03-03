@@ -78,14 +78,14 @@ class Spectrum(Serializable):
         # Find the starting and ending points in the energy scale
         c3 = self.energyScale.findBin(e1)
         c4 = self.energyScale.findBin(e2)
-
+        energyBins = self.energyScale.getEdges()
         # Compute the partial bins
-        u1 = self.energyScale[c3]
-        u2 = self.energyScale[c3 + 1]
+        u1 = energyBins[c3]
+        u2 = energyBins[c3 + 1]
         f1 = (e1 - u1) / (u2 - u1)
 
-        u1 = self.energyScale[c4]
-        u2 = self.energyScale[c4 + 1]
+        u1 = energyBins[c4]
+        u2 = energyBins[c4 + 1]
         f2 = (e2 - u1) / (u2 - u1)
 
         # Total is the sum of the whole bins minus the two partials

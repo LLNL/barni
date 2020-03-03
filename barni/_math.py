@@ -34,7 +34,7 @@ Module for various math routines.
 
 import scipy
 import numpy as np
-from . import extensions as ext
+import _barni
 
 __all__ = ['SolveAugmentedTridiag']
 
@@ -93,12 +93,12 @@ class SolveAugmentedTridiag():
     def reduceTridiag(self):
         """ Reduces the tridiag matrix to a upper diag in echelon form
         """
-        ext.math.reduce_tridiag(self.A11, self.A12, self.B1)
+        _barni.reduce_tridiag(self.A11, self.A12, self.B1)
 
     def zeroLower(self):
         """ Zero out lower left A21 matrix
         """
-        ext.math.zero_lower(self.A11, self.A12, self.A21, self.A22, self.B1, self.B2)
+        _barni.zero_lower(self.A11, self.A12, self.A21, self.A22, self.B1, self.B2)
         if not np.isclose(self.A21.sum(), 0):
             raise ValueError("Lower-left matrix (A21) not eliminated")
 

@@ -32,6 +32,7 @@ Module containing sensors (detector) definitions.
 """
 
 from . import _architecture as arch
+from ._bins import EnergyScale
 from . import _reader
 import numpy as np
 from scipy.stats import norm
@@ -95,10 +96,10 @@ class GaussianSensorModel(arch.SensorModel):
           binEdges(array like): is the edges of the bins
         '''
         scale = self.getResolution(energy)
-        binEdges = np.array([binEdges]).T
+        # binEdges = binEdges.get#np.array(binEdges.getEdges())
         u = norm.cdf(binEdges, energy, scale).T
-        integral = np.array(intensity * (u[:, 1:] - u[:, :-1]).T).T
-        return np.squeeze(integral)
+        integral = np.array(intensity * (u[1:] - u[:-1]).T).T
+        return integral
         # FIXME: do the math not max...
         #response = intensity * (integral / integral.max())
         # return response

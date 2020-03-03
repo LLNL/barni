@@ -109,7 +109,7 @@ def getInitialPeaks(y, b, es, sensor=None, lld=45, mu=1):
 
                 # Compute the initial peak parameters
                 channel = i - 1 + f
-                energy = es[channel]
+                energy = es.findEnergy(channel)
                 intensity = current
 
                 # Add it to the list
@@ -172,7 +172,7 @@ def responsePeaks(peaks, sensor, energyScale):
 
     for i in range(0, len(peaks)):
         p = peaks[i]
-        p.response = sensor.getResponse(p.energy, 1, energyScale)
+        p.response = sensor.getResponse(p.energy, 1, energyScale.getEdges())
     return peaks
 
 def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
@@ -318,7 +318,7 @@ class SmoothPeakResult(arch.PeakResult):
         energyScale = self._continuum.energyScale
         for p in self._peaks:
             shape = self._sensor.getResponse(
-                p.energy, float(p.intensity), energyScale)
+                p.energy, float(p.intensity), energyScale.getEdges())
             out = out + shape
         return Spectrum(out, energyScale)
 
@@ -356,8 +356,9 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
         energyScale = spectrum.energyScale
 
         # Smoothing kernel is based on the average energy scale
+        energyBins = energyScale.getEdges()
         mu = self.smoothingFactor * \
-            len(energyScale) / (energyScale[-1] - energyScale[0])
+            len(energyScale) / (energyBins[-1] - energyBins[0])
 
         # Compute the initial baseline to remove low frequency components
         baseline0, y = computeBaseline(spectrum.counts, mu=mu)

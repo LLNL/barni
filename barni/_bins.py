@@ -126,12 +126,13 @@ class EnergyScale(Serializable):
     def __len__(self):
         return len(self._edges)
 
-    def __getitem__(self, i):
-        if isinstance(i, float):
-            j = int(i)
-            f = i - j
-            return self._edges[j] * (1 - f) + f * self._edges[j + 1]
-        return self._edges[i]
+    # def __getitem__(self, i):
+    #    return self._edges[i]
+
+    def findEnergy(self, i):
+        j = int(i)
+        f = i - j
+        return self._edges[j] * (1 - f) + f * self._edges[j + 1]
 
     def getCenters(self):
         '''

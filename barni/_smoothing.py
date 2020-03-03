@@ -34,7 +34,7 @@ Collection of smoothing tools.
 
 import numpy as np
 from scipy.linalg import solve_banded
-from . import extensions as ext
+import _barni
 
 __all__ = ['smooth']
 
@@ -80,6 +80,6 @@ def smooth(signal, lmbda):
     """
     n = len(signal)
     A = np.zeros((3, n))
-    ext.math.fill_smooth(A, lmbda)
+    _barni.fill_smooth(A, lmbda)
     return solve_banded((1, 1), A, np.array(signal, np.float))
 

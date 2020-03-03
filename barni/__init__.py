@@ -27,16 +27,6 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###############################################################################
 
-# import cython extesnions first
-try:
-    from . import extensions
-except Exception as ex:
-    # pyximport is used for development
-    print("Extension failed to load")
-    print("Cython not compiled, attempt pyximport...")
-    import pyximport
-    pyximport.install(reload_support=True, language_level=3)
-    from . import extensions
 from . import _architecture
 from . import _id
 from . import _peak

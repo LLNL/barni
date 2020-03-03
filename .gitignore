@@ -17,4 +17,4 @@ doc/_build
 *generated/
 work/
 pyinstaller/
-barni/extensions/*.c
+

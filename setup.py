@@ -4,12 +4,12 @@ from Cython.Build import cythonize
 # cython extensions build by internal setup.py files
 extensions = [
     Extension(
-        name = "barni.extensions.math",
-        sources=["barni/extensions/math.pyx"])]
+        name = "_barni",
+        sources=["extensions/math.pyx"])]
 
 setup(
     name='BARNI',
-    packages = ['barni','barni.extensions'],
+    packages = ['barni'],
     version='0.1',
     author='Mateusz Monterial',
     author_email='mmonterial1@llnl.gov',

@@ -41,7 +41,7 @@ def fill_smooth(double[:,:] A, double f):
     """
     assert A.shape[0] == 3
     cdef Py_ssize_t n = A.shape[1]
-    cdef int i
+    cdef Py_ssize_t i
     cdef double c2 = 0
     cdef double c = 0
     for i in range(0, n - 1):

@@ -1,12 +1,15 @@
 from setuptools import setup, Extension
-from Cython.Build import cythonize, build_ext
-import glob
+from Cython.Build import cythonize
 
-extensions = [Extension("extensions",sources=glob.glob("barni/extensions/*.pyx"))]
+# cython extensions build by internal setup.py files
+extensions = [
+    Extension(
+        name = "barni.extensions.math",
+        sources=["barni/extensions/math.pyx"])]
 
 setup(
     name='BARNI',
-    packages=['barni'],
+    packages = ['barni','barni.extensions'],
     version='0.1',
     author='Mateusz Monterial',
     author_email='mmonterial1@llnl.gov',
@@ -26,13 +29,13 @@ setup(
         'scipy>=1.3.0',
         'bokeh>=1.4.0',
         'pyyaml>=5.1',
-        'pandas>=0.25'
+        'pandas>=0.25',
+        'cython>=0.2'
     ],
     setup_requires=[
         'cython>=0.2',
     ],
-    test_suite='nose2.collector.collector',
-    ext_modules = extensions,
-    cmdclass={'build_ext': build_ext},
+    test_suite='test',
+    ext_modules =  cythonize(extensions),
     # include_dirs=numpy.distutils.misc_util.get_numpy_include_dirs()
 )

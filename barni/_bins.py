@@ -114,9 +114,20 @@ class EnergyScale(Serializable):
     """ Get which bin this energy falls into"""
 
     def findBin(self, energy):
-        ''' Finds bin number corresponding to a specific energy.
-        '''
-        return bisect.bisect_left(self._edges, energy) - 1
+        """ Finds channel number corresponding to a specific energy.
+
+        Args:
+            energy (float): Energy.
+
+        Returns:
+            Channel number that the energy falls into.
+            Returns -1 if energy < first edge
+            Returns last bin if energy > last edge
+        """
+        channel = bisect.bisect_left(self._edges, energy) - 1
+        if channel < 0:
+            channel = 0
+        return channel
 
     def getCenter(self, i):
         ''' Returns centers at specified bin number.

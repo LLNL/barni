@@ -48,6 +48,8 @@ class EnergyScaleTestCase(unittest.TestCase):
 
     def test_findBin(self):
         self.assertEqual(self.energy_scale.findBin(5), 4)
+        self.assertEqual(self.energy_scale.findBin(6), 5)
+        self.assertEqual(self.energy_scale.findBin(-1), 0)
 
     def test_Length(self):
         self.assertEqual(len(self.energy_scale), 6)

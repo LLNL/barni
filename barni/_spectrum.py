@@ -36,6 +36,7 @@ import copy
 from scipy import spatial
 import textwrap
 from collections import UserList
+import warnings
 
 from ._architecture import Serializable
 from ._bins import EnergyScale, loadEnergyScale
@@ -75,19 +76,32 @@ class Spectrum(Serializable):
         self.title = title
 
     def getIntegral(self, e1, e2):
-        # Find the starting and ending points in the energy scale
+        """
+        Args:
+            e1: Lower energy bound
+            e2: Higher energy bound
+
+        Returns:
+            Integral of the counts between the two energies.
+        """
+        if e2 <= e1:
+            raise ValueError("The second energy must be greater than the first energy (e2 > e1).")
+        energyEdges = self.energyScale.getEdges()
+        if e1 < energyEdges[0]:
+            warnings.warn("The specified lower energy is outside of the energy scale")
+            e1 = energyEdges[0]
+        if e2 > energyEdges[-1]:
+            warnings.warn("The specified higher energy is outside of the energy scale")
+            e2 = energyEdges[-1]
         c3 = self.energyScale.findBin(e1)
         c4 = self.energyScale.findBin(e2)
-        energyBins = self.energyScale.getEdges()
         # Compute the partial bins
-        u1 = energyBins[c3]
-        u2 = energyBins[c3 + 1]
+        u1 = energyEdges[c3]
+        u2 = energyEdges[c3 + 1]
         f1 = (e1 - u1) / (u2 - u1)
-
-        u1 = energyBins[c4]
-        u2 = energyBins[c4 + 1]
-        f2 = (e2 - u1) / (u2 - u1)
-
+        u1 = energyEdges[c4]
+        u2 = energyEdges[c4 + 1]
+        f2 = (u2 - e2) / (u2 - u1)
         # Total is the sum of the whole bins minus the two partials
         return np.sum(self.counts[c3:c4 + 1]) - \
             self.counts[c3] * f1 - self.counts[c4] * f2
@@ -100,11 +114,11 @@ class Spectrum(Serializable):
         counts = self.counts[0::2] + self.counts[1::2]
         rt = self.realtime
         lt = self.livetime
-        es = EnergyScale(self.energyScale[range(0, len(self.energyScale), 2)])
+        energyEdges = self.energyScale.getEdges()
+        es = EnergyScale(energyEdges[range(0, len(self.energyScale), 2)])
         out = Spectrum(counts, es, rt, lt)
-
         # Copy attributes
-        for attr in ["label", "title"]:
+        for attr in ["label", "title","distance","gamma_dose"]:
             if hasattr(self, attr):
                 setattr(out, attr, getattr(self, attr))
         return out

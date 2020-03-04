@@ -28,41 +28,43 @@
 ###############################################################################
 
 import unittest
-from barni import EnergyScale
+from barni import RegionOfInterest, Peak
+from barni._architecture import NuclideResult
 from barni import loadXml
 import tempfile
 
-class EnergyScaleTestCase(unittest.TestCase):
+class  RegionOfInterestTestCase(unittest.TestCase):
     def setUp(self):
-        self.energy_scale = EnergyScale([0, 1, 2, 3, 4, 5])
+        self.roi = RegionOfInterest(0, 1)
 
-    def test_newScale(self):
-        es = EnergyScale.newScale(0, 5, 1, 1)
-        self.assertSequenceEqual(tuple(es.getEdges()), tuple(self.energy_scale.getEdges()))
+    def test_Contains(self):
+        self.assertTrue(0.5 in self.roi)
+        self.assertFalse(2 in self.roi)
 
-    def test_getCenter(self):
-        self.assertEqual(self.energy_scale.getCenter(4), 4.5)
+class  PeakTestCase(unittest.TestCase):
+    def setUp(self):
+        self.peak = Peak(662, 1, 0, 10)
 
-    def test_getCenters(self):
-        self.assertSequenceEqual(tuple(self.energy_scale.getCenters()), tuple([0.5,1.5,2.5,3.5,4.5]))
+    def test_toXml(self):
+        with tempfile.NamedTemporaryFile() as fp:
+            self.peak.write(fp.name)
+            # FIXME Loader for Peak does not exist.
 
-    def test_findBin(self):
-        self.assertEqual(self.energy_scale.findBin(5), 4)
+    def test_Energy(self):
+        self.assertEqual(self.peak.energy, 662)
 
-    def test_Length(self):
-        self.assertEqual(len(self.energy_scale), 6)
-
-    def test_findEnergy(self):
-        self.assertEqual(self.energy_scale.findEnergy(1.5), 1.5)
+class  NuclideResultTestCase(unittest.TestCase):
+    def setUp(self):
+        self.nr = NuclideResult("Co60", 0.9, 1)
 
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
         with tempfile.NamedTemporaryFile() as fp:
-            self.energy_scale.write(fp.name)
-            es = loadXml(fp.name)
-            self.assertSequenceEqual(tuple(es.getEdges()), tuple(self.energy_scale.getEdges()))
+            self.nr.write(fp.name)
+            nr = loadXml(fp.name)
+            self.assertEqual(nr.score, 0.9)
+            self.assertEqual(nr.prediction, 1)
 
 if __name__ == "main":
     unittest.main()
-

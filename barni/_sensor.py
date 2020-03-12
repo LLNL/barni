@@ -69,7 +69,7 @@ class GaussianSensorModel(arch.SensorModel):
         for attr in attributes:
             if hasattr(self, attr):
                 value = getattr(self, attr)
-                if value:
+                if value is not None:
                     xml += "  <%s>" % attr
                     xml += str(value)
                     xml += "</%s>\n" % attr
@@ -85,7 +85,7 @@ class GaussianSensorModel(arch.SensorModel):
         self.B = ((fwhmRef_kev / 2.355)**(1. / self.C) -
                   self.A) / self.resolutionEnergy
 
-    def getResponse(self, energy, intensity, binEdges):
+    def getResponse(self, energy, intensity, binEdges, width=None):
         '''
         Integral of gaussian of intensity in channels between bins. Energy
         and intensity have to be the same length
@@ -95,7 +95,10 @@ class GaussianSensorModel(arch.SensorModel):
           intensity(float): is the total counts under the peak
           binEdges(array like): is the edges of the bins
         '''
-        scale = self.getResolution(energy)
+        if width is None:
+            scale = self.getResolution(energy)
+        else:
+            scale = width
         # binEdges = binEdges.get#np.array(binEdges.getEdges())
         u = norm.cdf(binEdges, energy, scale).T
         integral = np.array(intensity * (u[1:] - u[:-1]).T).T

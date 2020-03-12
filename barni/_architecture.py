@@ -183,7 +183,7 @@ class Peak(Serializable):
         for attr in attributes:
             if hasattr(self, attr):
                 value = getattr(self, attr)
-                if value:
+                if value is not None:
                     xml += "  <%s>" % attr
                     xml += str(value)
                     xml += "</%s>\n" % attr
@@ -347,7 +347,7 @@ class NuclideResult(Serializable):
         for attr in attributes:
             if hasattr(self, attr):
                 value = getattr(self, attr)
-                if value:
+                if value is not None:
                     xml += "  <%s>" % attr
                     xml += str(value)
                     xml += "</%s>\n" % attr

@@ -44,8 +44,9 @@ import math
 import textwrap
 
 from typing import List
+from math import floor
 
-from ._architecture import IdentificationInput, PeakResults
+from ._architecture import IdentificationInput, PeakResults, Peak
 from ._reader import registerReader
 from . import _architecture as arch
 from ._spectrum import Spectrum
@@ -174,6 +175,64 @@ def responsePeaks(peaks, sensor, energyScale):
         p = peaks[i]
         p.response = sensor.getResponse(p.energy, 1, energyScale.getEdges())
     return peaks
+
+def addNeighborPeaks(peaks0, sensor):
+    """ Adds left and right neighbor peaks
+    Args:
+        peaks: List of Peak
+        sensor:
+    Returns:
+        Peak list with spliced in neighbor peaks
+    """
+    p2 = []
+    reps = 3
+    for i in range(len(peaks0) * reps):
+        j = floor(i / reps)
+        p = peaks0[j]
+        k = i % reps
+        if k == 0:
+            w = -1 * sensor.getResolution(p.energy)
+        elif k == 1:
+            w = 0
+        elif k == 2:
+            w = 1 * sensor.getResolution(p.energy)
+        p2.append(Peak(p.energy + w, p.intensity, p.baseline))
+    return p2
+
+
+def combineNeighborPeaks(peaks, energyScale):
+    """ Combine three neighboring peaks together using intensity for weighted average calculations.
+
+    The peaks must be responsed. The baseline is not calculated for the new peaks
+    and is set to 0.
+
+    Args:
+        peaks: List of Peak
+        energyScale: Energy scale associated with the responsed peaks
+    Returns:
+        Peak list with spliced in neighbor peaks
+    """
+    p2 = []
+    reps = 3
+    if (len(peaks) % reps) > 0:
+        raise RuntimeError("The number of peaks must be divisible by %d" % reps)
+    edge_widths = energyScale.getEdges()[1:] - energyScale.getEdges()[:-1]
+    for i in range(len(peaks)):
+        p = peaks[i]
+        k = i % reps
+        if k == 0:
+            ergw, isum, rsum = 0, 0, 0
+        ergw += p.energy * p.intensity
+        isum += p.intensity  # sum of the integrals
+        rsum += p.intensity * p.response
+        if k == (reps - 1):
+            if isum > 0:
+                erg = ergw / isum
+                rsum = rsum / edge_widths
+                a = rsum.max()  # heigh of combined peaks
+                width = np.sqrt(1 / (2 * np.pi) * (isum / a) ** 2)
+                p2.append(Peak(erg, isum, 0, width))
+    return p2
 
 def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
     """ Simultenously solves the smooth curve and peaks.
@@ -318,7 +377,7 @@ class SmoothPeakResult(arch.PeakResult):
         energyScale = self._continuum.energyScale
         for p in self._peaks:
             shape = self._sensor.getResponse(
-                p.energy, float(p.intensity), energyScale.getEdges())
+                p.energy, float(p.intensity), energyScale.getEdges(), p.width)
             out = out + shape
         return Spectrum(out, energyScale)
 
@@ -366,6 +425,8 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
         # Extract an initial peak list used the derivative
         peaks0 = getInitialPeaks(
             y, baseline0, energyScale, sensor=self.sensor, lld=self.startEnergy, mu=mu)
+        # expand the peaks by adding in neighbors
+        peaks0 = addNeighborPeaks(peaks0, self.sensor)
 
         # Compute the response kernel for the initial peaks
         peaks0 = responsePeaks(peaks0, self.sensor, energyScale)
@@ -373,7 +434,8 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
         # Solve the smooth curve plus peaks
         baseline, intensity, peaks, response = solve(
             spectrum, peaks0, self.sensor, energyScale, mu=mu, lld = energyScale.findBin(self.startEnergy))
-
+        peaks = responsePeaks(peaks, self.sensor, energyScale)
+        peaks = combineNeighborPeaks(peaks, energyScale)
         # Produce a standard output
         continuum  = Spectrum(np.array(baseline).flatten(), energyScale)
         for peak in peaks:

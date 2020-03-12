@@ -74,14 +74,14 @@ class SolveAugmentedTridiag():
             raise ValueError("B1 and A12 must have the same number of rows")
         if B2.shape[0] != A21.shape[0] or B2.shape[0] != A22.shape[0]:
             raise ValueError("B2, A21 and A22 must have the same number of rows")
-        self.A11 = A11
-        self.A12 = A12
-        self.A21 = A21
-        self.A22 = A22
-        self.B1 = B1
-        self.B2 = B2
-        self.C1 = np.zeros(B1.size)
-        self.C2 = np.zeros(B2.size)
+        self.A11 = A11.astype(np.double)
+        self.A12 = A12.astype(np.double)
+        self.A21 = A21.astype(np.double)
+        self.A22 = A22.astype(np.double)
+        self.B1 = B1.astype(np.double)
+        self.B2 = B2.astype(np.double)
+        self.C1 = np.zeros(B1.size, dtype=np.double)
+        self.C2 = np.zeros(B2.size, dtype=np.double)
 
     def solve(self):
         self.reduceTridiag()

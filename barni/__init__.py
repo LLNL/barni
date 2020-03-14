@@ -88,3 +88,6 @@ __all__.extend(_label.__all__)
 __all__.extend(_plot.__all__)
 __all__.extend(_result.__all__)
 __all__.extend(_math.__all__)
+
+__version_info__ = (0,1,1)
+__version__ = ".".join(str(i) for i in __version_info__)

@@ -10,7 +10,7 @@ extensions = [
 setup(
     name='BARNI',
     packages = ['barni'],
-    version='0.1',
+    version='0.11',
     author='Mateusz Monterial',
     author_email='mmonterial1@llnl.gov',
     url='https://',

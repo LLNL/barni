@@ -62,20 +62,17 @@ To update the documentation:
 The documentation is generated in the `doc\_build\` folder
 
 
-Contributors
-------------
+Authors
+-------
 
 - Mateusz Monterial, LLNL
 - Karl Nelson, LLNL
-
-Acknowledgements
-----------------
-
-
 
 License
 -------
 
 BARNI is released under an MIT license. For more details see the [LICENSE](/LICENSE) file.
 
-LLNL-CODE-<R&R number>
+SPDX-License-Identifier: MIT
+
+LLNL-CODE-805904

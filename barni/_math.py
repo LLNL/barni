@@ -41,13 +41,14 @@ __all__ = ['SolveAugmentedTridiag']
 
 # FIXME: store the tridiagonal matrix in matrix diagonal ordered form used in scipy banded solvers
 def convert2tri(matrix):
-  """ Converts matrix into tridiagonal with 3 rows and same number of columns.
-  """
-  tridiag = np.zeros((3, matrix.shape[1]))
-  tridiag[0,:-1] = matrix.diagonal(-1).copy()
-  tridiag[1,:] = matrix.diagonal(0).copy()
-  tridiag[2,1:] = matrix.diagonal(1).copy()
-  return tridiag
+    """ Converts matrix into tridiagonal with 3 rows and same number of columns.
+    """
+    tridiag = np.zeros((3, matrix.shape[1]))
+    tridiag[0, :-1] = matrix.diagonal(-1).copy()
+    tridiag[1, :] = matrix.diagonal(0).copy()
+    tridiag[2, 1:] = matrix.diagonal(1).copy()
+    return tridiag
+
 
 class SolveAugmentedTridiag():
     """
@@ -67,13 +68,16 @@ class SolveAugmentedTridiag():
         if 3 != A11.shape[0]:
             raise ValueError("A11 matrix must be a tridiagonal")
         if A11.shape[1] != A21.shape[1]:
-            raise ValueError("A11 and A21 must have the same number of columns")
+            raise ValueError(
+                "A11 and A21 must have the same number of columns")
         if A12.shape[1] != A22.shape[1]:
-            raise ValueError("A12 and A22 must have the same number of columns")
+            raise ValueError(
+                "A12 and A22 must have the same number of columns")
         if B1.shape[0] != A12.shape[0]:
             raise ValueError("B1 and A12 must have the same number of rows")
         if B2.shape[0] != A21.shape[0] or B2.shape[0] != A22.shape[0]:
-            raise ValueError("B2, A21 and A22 must have the same number of rows")
+            raise ValueError(
+                "B2, A21 and A22 must have the same number of rows")
         self.A11 = A11.astype(np.double)
         self.A12 = A12.astype(np.double)
         self.A21 = A21.astype(np.double)
@@ -98,7 +102,8 @@ class SolveAugmentedTridiag():
     def zeroLower(self):
         """ Zero out lower left A21 matrix
         """
-        _barni.zero_lower(self.A11, self.A12, self.A21, self.A22, self.B1, self.B2)
+        _barni.zero_lower(self.A11, self.A12, self.A21,
+                          self.A22, self.B1, self.B2)
         if not np.isclose(self.A21.sum(), 0):
             raise ValueError("Lower-left matrix (A21) not eliminated")
 
@@ -112,8 +117,8 @@ class SolveAugmentedTridiag():
     def solveUpper(self):
         # FIXME: store the tridiagonal matrix in matrix diagonal ordered form used in scipy banded solvers
         ab = np.zeros((2, self.A11.shape[1]))
-        ab[0,1:] = self.A11[0,:-1]
-        ab[1,:] = self.A11[1]
+        ab[0, 1:] = self.A11[0, :-1]
+        ab[1, :] = self.A11[1]
         self.C1 = scipy.linalg.solve_banded((0, 1), ab, self.B1)
 
 

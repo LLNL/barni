@@ -44,6 +44,7 @@ from ._reader import registerReader
 
 __all__ = ["PeakResultsList"]
 
+
 def loadPeak(context, element):
     """ Loads in a Peak
     """
@@ -55,7 +56,7 @@ def loadPeak(context, element):
         'width'
     ]
 
-    out = Peak(energy = None, intensity = None, baseline = None, width=0)
+    out = Peak(energy=None, intensity=None, baseline=None, width=0)
     for node in element.childNodes:
         # skip all but elements
         if node.nodeType != node.ELEMENT_NODE:
@@ -66,11 +67,12 @@ def loadPeak(context, element):
         context.raiseElementError(element, node)
     return out
 
+
 def loadSmoothPeakResult(context, element):
     """ Load in a smooth peak result
     """
 
-    out = SmoothPeakResult(peaks = [], continuum=None, sensor=None)
+    out = SmoothPeakResult(peaks=[], continuum=None, sensor=None)
     for node in element.childNodes:
         # skip all but elements
         if node.nodeType != node.ELEMENT_NODE:
@@ -88,17 +90,18 @@ def loadSmoothPeakResult(context, element):
         context.raiseElementError(element, node)
     return out
 
+
 def loadPeakResults(context, element):
     """
     Reads in spectrum from XML document.
     """
 
-    out = PeakResults(sample = None)
+    out = PeakResults(sample=None)
     for node in element.childNodes:
         # skip all but elements
         if node.nodeType != node.ELEMENT_NODE:
             continue
-        if  node.tagName == "SmoothPeakResult":
+        if node.tagName == "SmoothPeakResult":
             if node.attributes['name'].value == "sample":
                 out.sample = loadSmoothPeakResult(context, node)
                 continue
@@ -118,7 +121,7 @@ class PeakResultsList(Serializable, UserList):
     Useful class for holding the intermediate results of the training routine.
     """
 
-    def addPeakResults(self, input : PeakResults):
+    def addPeakResults(self, input: PeakResults):
         self.data.append(input)
 
     def toXml(self):

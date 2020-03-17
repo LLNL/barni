@@ -39,6 +39,7 @@ from bokeh.models import HoverTool
 
 __all__ = ["plotPeakResult"]
 
+
 def plotPeakResult(id_input, peakresult, outputfile="result.html"):
     """
     Plots the peak results.
@@ -66,19 +67,24 @@ def plotPeakResult(id_input, peakresult, outputfile="result.html"):
                      y_axis_type=axis_type,
                      x_axis_label='Energy (keV)',
                      y_axis_label='Counts')
-        fig.varea(x=centers, y1=continuum, y2=fit, color="green", legend_label="peaks")
+        fig.varea(x=centers, y1=continuum, y2=fit,
+                  color="green", legend_label="peaks")
 
         for peak in peakresult.getPeaks():
             ymax = fit[energyScale.findBin(peak.energy)]
             source = ColumnDataSource(data=dict(x=[peak.energy, peak.energy], y=[10e-10, ymax],
-                                                energy=["%6.1f" % peak.energy] * 2,
-                                                intensity=["%d" % peak.intensity] * 2,
-                                                baseline=["%d" % peak.baseline] * 2,
+                                                energy=["%6.1f" %
+                                                        peak.energy] * 2,
+                                                intensity=["%d" %
+                                                           peak.intensity] * 2,
+                                                baseline=["%d" %
+                                                          peak.baseline] * 2,
                                                 width=["%6.2f" % peak.width] * 2))
             pline = fig.line('x', 'y', color="red", source=source)
             hover.renderers.append(pline)
         fig.add_tools(hover)
-        fig.varea(x=centers, y1=np.ones(continuum.size) * 10e-10, y2=continuum, color="blue", legend_label="continuum")
+        fig.varea(x=centers, y1=np.ones(continuum.size) * 10e-10,
+                  y2=continuum, color="blue", legend_label="continuum")
         fig.line(centers, id_input.sample.counts, legend_label="sample",
                  line_dash='dashed', color="black", line_width=2)
         panel = Panel(child=fig, title=axis_type)

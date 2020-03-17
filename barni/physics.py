@@ -34,6 +34,7 @@ This contains routines used to compute physics properties such as
 the compton edge or backscatter peak.
 """
 
+
 def computeEdge(energy):
     """ Calculates compton edge energy (keV).
     Args:
@@ -45,6 +46,7 @@ def computeEdge(energy):
     """
     return energy * (1 - 1 / (1 + 2 * energy / 511.0))
 
+
 def backScatter(energy):
     """ Calculates back scatter energy (keV)
 
@@ -55,4 +57,4 @@ def backScatter(energy):
         Corresponding backscatter energy.
 
     """
-    return energy / (1+ 2 * energy / 511.0)
+    return energy / (1 + 2 * energy / 511.0)

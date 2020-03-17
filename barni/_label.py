@@ -39,6 +39,7 @@ __all__ = ["Label"]
 from ._reader import registerReader
 from ._architecture import Serializable
 
+
 class Label(Serializable):
     """
     This class is attached to results to create labeled data.
@@ -74,12 +75,13 @@ class Label(Serializable):
         xml += "</Label>\n"
         return xml
 
+
 def loadLabel(context, element):
     """
     Converts a dom element into a FeatureExtractor object
     """
 
-    floatFields = ['ad','z']
+    floatFields = ['ad', 'z']
     stringFields = ['name']
 
     out = Label()
@@ -95,5 +97,6 @@ def loadLabel(context, element):
             continue
         context.raiseElementError(element, node)
     return out
+
 
 registerReader("Label", loadLabel)

@@ -41,11 +41,12 @@ from ._reader import registerReader
 
 __all__ = ["NuclideResultList"]
 
+
 class NuclideResultList(Serializable, UserList):
     """ List of nuclide results.
     """
 
-    def addNuclideResult(self, input : NuclideResult):
+    def addNuclideResult(self, input: NuclideResult):
         self.data.append(input)
 
     def toXml(self):
@@ -55,10 +56,11 @@ class NuclideResultList(Serializable, UserList):
         xml += "</NuclideResultList>\n"
         return xml
 
+
 def loadNuclideResult(context, element):
     """ Loads in a nuclide result
     """
-    out = NuclideResult(nuclide = None, score = None, prediction = None)
+    out = NuclideResult(nuclide=None, score=None, prediction=None)
     for node in element.childNodes:
         # skip all but elements
         if node.nodeType != node.ELEMENT_NODE:
@@ -75,6 +77,7 @@ def loadNuclideResult(context, element):
         context.raiseElementError(element, node)
     return out
 
+
 def loadNuclideResultList(context, element):
     """ Loads a list of nuclide results
     """
@@ -88,6 +91,7 @@ def loadNuclideResultList(context, element):
             continue
         context.raiseElementError(element, node)
     return out
+
 
 registerReader("NuclideResult", loadNuclideResult)
 registerReader("NuclideResultList", loadNuclideResultList)

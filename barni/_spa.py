@@ -176,6 +176,7 @@ def responsePeaks(peaks, sensor, energyScale):
         p.response = sensor.getResponse(p.energy, 1, energyScale.getEdges())
     return peaks
 
+
 def addNeighborPeaks(peaks0, sensor):
     """ Adds left and right neighbor peaks
     Args:
@@ -215,7 +216,8 @@ def combineNeighborPeaks(peaks, energyScale):
     p2 = []
     reps = 3
     if (len(peaks) % reps) > 0:
-        raise RuntimeError("The number of peaks must be divisible by %d" % reps)
+        raise RuntimeError(
+            "The number of peaks must be divisible by %d" % reps)
     edge_widths = energyScale.getEdges()[1:] - energyScale.getEdges()[:-1]
     for i in range(len(peaks)):
         p = peaks[i]
@@ -233,6 +235,7 @@ def combineNeighborPeaks(peaks, energyScale):
                 width = np.sqrt(1 / (2 * np.pi) * (isum / a) ** 2)
                 p2.append(Peak(erg, isum, 0, width))
     return p2
+
 
 def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
     """ Simultenously solves the smooth curve and peaks.
@@ -254,7 +257,7 @@ def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
     n1 = len(spectrum.counts)
     n2 = len(shapes)
     if not peaks:
-        S = np.zeros((n1,1))
+        S = np.zeros((n1, 1))
     else:
         S = np.array(shapes).T
     A11 = np.zeros((3, n1))
@@ -268,12 +271,12 @@ def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
         else:
             c = i * mu
         A11[1, i] = 1 + c + c2
-        A11[0, i] = -c # upper
-        A11[2, i+1] = -c # lower
+        A11[0, i] = -c  # upper
+        A11[2, i+1] = -c  # lower
         c2 = c
     A11[1, -1] = 1 - c2
     # Populate the unfolding portion
-    B1= np.array([spectrum.counts]).T
+    B1 = np.array([spectrum.counts]).T
     B2 = S.T @ B1
     A21 = S.T.copy()
     A22 = S.T @ S
@@ -301,7 +304,8 @@ class SmoothPeakResult(arch.PeakResult):
         continuum (Spectrum): Estimated continuum.
         sensor (SensorModel): The sesnor model used to response the peaks.
     """
-    def __init__(self, peaks : List[arch.Peak], continuum : Spectrum, sensor : arch.SensorModel):
+
+    def __init__(self, peaks: List[arch.Peak], continuum: Spectrum, sensor: arch.SensorModel):
         self._peaks = peaks
         self._continuum = continuum
         self._sensor = sensor
@@ -309,7 +313,7 @@ class SmoothPeakResult(arch.PeakResult):
     def getContinuum(self) -> Spectrum:
         return self._continuum
 
-    def toXml(self, name = None):
+    def toXml(self, name=None):
         """
         Args:
             name: Attribute to tag the peaks result with
@@ -343,13 +347,13 @@ class SmoothPeakResult(arch.PeakResult):
                 continue
             # integrate the region of interest
             t2 = math.erf((e2 - peak.energy)/peak.width/root2)
-            t1 = math.erf((e1 - peak.energy)/ peak.width/root2)
+            t1 = math.erf((e1 - peak.energy) / peak.width/root2)
             contribution = (t2 - t1) * peak.intensity / 2.
             intensity += contribution
             # effective energy of the region of interest
             energy += peak.intensity * (
-                       peak.energy / 2 * (t2 - t1)
-                      - peak.width**2 *(gauss_pdf(e2, peak.energy, peak.width) - gauss_pdf(e1, peak.energy, peak.width)))
+                peak.energy / 2 * (t2 - t1)
+                - peak.width**2 * (gauss_pdf(e2, peak.energy, peak.width) - gauss_pdf(e1, peak.energy, peak.width)))
         '''    
         for peak in [i for i in self._peaks if (i.energy > e1 and i.energy < e2)]:
             intensity += peak.intensity
@@ -402,7 +406,7 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
         self.endEnergy = 3000
         self.smoothingFactor = 3
 
-    def __analyze_spectrum(self, spectrum : Spectrum) -> arch.PeakResult:
+    def __analyze_spectrum(self, spectrum: Spectrum) -> arch.PeakResult:
         """ Performs peak extraction on the inputed spectrum
 
         Args:
@@ -433,17 +437,18 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
 
         # Solve the smooth curve plus peaks
         baseline, intensity, peaks, response = solve(
-            spectrum, peaks0, self.sensor, energyScale, mu=mu, lld = energyScale.findBin(self.startEnergy))
+            spectrum, peaks0, self.sensor, energyScale, mu=mu, lld=energyScale.findBin(self.startEnergy))
         peaks = responsePeaks(peaks, self.sensor, energyScale)
         peaks = combineNeighborPeaks(peaks, energyScale)
         # Produce a standard output
-        continuum  = Spectrum(np.array(baseline).flatten(), energyScale)
+        continuum = Spectrum(np.array(baseline).flatten(), energyScale)
         for peak in peaks:
-            peak.baseline = continuum.getIntegral(peak.energy-peak.width, peak.energy+peak.width)
+            peak.baseline = continuum.getIntegral(
+                peak.energy-peak.width, peak.energy+peak.width)
         out = SmoothPeakResult(peaks, continuum, self.sensor)
         return out
 
-    def analyze(self, id_input: IdentificationInput, downsample = False) -> PeakResults:
+    def analyze(self, id_input: IdentificationInput, downsample=False) -> PeakResults:
         """
         Args:
             id_input (IdentificationInput): BARNI identification input.
@@ -477,6 +482,7 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
                 scale_factor = sample.livetime * 1. / intrinsic.livetime
         out = PeakResults(sample_result, intrinsic_result, scale_factor)
         return out
+
 
 def loadSmoothPeakAnalysis(context, element):
     '''

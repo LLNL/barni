@@ -82,4 +82,3 @@ def smooth(signal, lmbda):
     A = np.zeros((3, n))
     _barni.fill_smooth(A, lmbda)
     return solve_banded((1, 1), A, np.array(signal, np.float))
-

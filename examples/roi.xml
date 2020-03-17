@@ -1,0 +1,221 @@
+<featureExtractor>
+  <nuclide name='Am241'>
+    <roi lower='50.16' upper='63.86'/>
+    <roi lower='89.34' upper='108.16'/>
+    <roi lower='141.83' upper='166.56'/>
+    <roi lower='175.26' upper='203.16'/>
+    <roi lower='190.12' upper='219.44'/>
+    <roi lower='311.51' upper='350.42'/>
+    <roi lower='630.26' upper='689.18'/>
+  </nuclide>
+  <nuclide name='Ba133'>
+    <roi lower='55.72' upper='70.25'/>
+    <roi lower='142.02' upper='166.75'/>
+    <roi lower='277.33' upper='313.76'/>
+    <roi lower='334.30' upper='374.89'/>
+  </nuclide>
+  <nuclide name='Bi207'>
+    <roi lower='64.14' upper='79.86'/>
+    <roi lower='170.04' upper='197.54'/>
+    <roi lower='540.08' upper='593.88'/>
+    <roi lower='1022.01' upper='1100.36'/>
+    <roi lower='1714.51' upper='1820.84'/>
+  </nuclide>
+  <nuclide name='Cd109'>
+    <roi lower='52.93' upper='67.05'/>
+    <roi lower='66.98' upper='83.09'/>
+    <roi lower='78.26' upper='95.85'/>
+    <roi lower='106.67' upper='127.66'/>
+  </nuclide>
+  <nuclide name='Cs134'>
+    <roi lower='174.66' upper='202.56'/>
+    <roi lower='571.24' upper='626.81'/>
+    <roi lower='761.20' upper='827.00'/>
+    <roi lower='1317.44' upper='1408.40'/>
+  </nuclide>
+  <nuclide name='Cs137'>
+    <roi lower='172.64' upper='200.40'/>
+    <roi lower='628.26' upper='687.03'/>
+  </nuclide>
+  <nuclide name='Cr51'>
+    <roi lower='55.72' upper='70.25'/>
+    <roi lower='134.43' upper='158.45'/>
+    <roi lower='298.70' upper='336.76'/>
+  </nuclide>
+  <nuclide name='Co57'>
+    <roi lower='69.76' upper='86.24'/>
+    <roi lower='108.81' upper='130.10'/>
+    <roi lower='176.25' upper='204.28'/>
+    <roi lower='541.48' upper='595.36'/>
+    <roi lower='660.31' upper='720.83'/>
+  </nuclide>
+  <nuclide name='Co60'>
+    <roi lower='202.11' upper='232.45'/>
+    <roi lower='1128.22' upper='1211.20'/>
+    <roi lower='1285.98' upper='1375.67'/>
+  </nuclide>
+  <nuclide name='Eu152'>
+    <roi lower='108.08' upper='129.21'/>
+    <roi lower='322.03' upper='361.78'/>
+    <roi lower='743.70' upper='808.60'/>
+    <roi lower='924.39' upper='998.21'/>
+    <roi lower='1059.25' upper='1139.26'/>
+    <roi lower='1360.09' upper='1452.78'/>
+  </nuclide>
+  <nuclide name='Ga67'>
+    <roi lower='130.67' upper='154.25'/>
+    <roi lower='168.57' upper='195.80'/>
+    <roi lower='278.85' upper='315.39'/>
+    <roi lower='369.21' upper='412.22'/>
+    <roi lower='850.81' upper='921.06'/>
+  </nuclide>
+  <nuclide name='Ho166m'>
+    <roi lower='169.29' upper='196.52'/>
+    <roi lower='261.27' upper='296.36'/>
+    <roi lower='387.14' upper='431.42'/>
+    <roi lower='677.15' upper='738.60'/>
+    <roi lower='778.21' upper='844.90'/>
+  </nuclide>
+  <nuclide name='In111'>
+    <roi lower='55.70' upper='70.22'/>
+    <roi lower='88.01' upper='106.82'/>
+    <roi lower='158.45' upper='184.73'/>
+    <roi lower='226.79' upper='259.20'/>
+  </nuclide>
+  <nuclide name='I123'>
+    <roi lower='80.80' upper='98.74'/>
+    <roi lower='143.60' upper='168.48'/>
+    <roi lower='164.63' upper='191.59'/>
+    <roi lower='412.05' upper='457.96'/>
+    <roi lower='499.96' upper='551.43'/>
+    <roi lower='701.85' upper='764.63'/>
+  </nuclide>
+  <nuclide name='I131'>
+    <roi lower='144.26' upper='169.14'/>
+    <roi lower='263.88' upper='299.30'/>
+    <roi lower='341.50' upper='382.59'/>
+    <roi lower='604.92' upper='662.47'/>
+    <roi lower='695.25' upper='757.72'/>
+  </nuclide>
+  <nuclide name='Ir192'>
+    <roi lower='55.73' upper='70.26'/>
+    <roi lower='133.33' upper='157.19'/>
+    <roi lower='167.38' upper='194.61'/>
+    <roi lower='290.09' upper='327.51'/>
+    <roi lower='442.73' upper='490.60'/>
+    <roi lower='572.51' upper='628.16'/>
+    <roi lower='845.47' upper='915.50'/>
+  </nuclide>
+  <nuclide name='Mn54'>
+    <roi lower='184.11' upper='212.92'/>
+    <roi lower='557.84' upper='612.66'/>
+    <roi lower='798.08' upper='865.72'/>
+  </nuclide>
+  <nuclide name='Mo99'>
+    <roi lower='75.39' upper='92.61'/>
+    <roi lower='126.10' upper='149.23'/>
+    <roi lower='179.26' upper='207.55'/>
+    <roi lower='343.47' upper='384.77'/>
+    <roi lower='709.57' upper='772.73'/>
+  </nuclide>
+  <nuclide name='Np237'>
+    <roi lower='55.71' upper='70.24'/>
+    <roi lower='84.69' upper='102.98'/>
+    <roi lower='134.63' upper='158.65'/>
+    <roi lower='290.00' upper='327.42'/>
+    <roi lower='384.72' upper='428.80'/>
+  </nuclide>
+  <nuclide name='Pu239'>
+    <roi lower='85.35' upper='103.82'/>
+    <roi lower='147.26' upper='172.42'/>
+    <roi lower='188.59' upper='217.65'/>
+    <roi lower='357.07' upper='399.37'/>
+    <roi lower='613.99' upper='672.03'/>
+  </nuclide>
+  <nuclide name='K40'>
+    <roi lower='210.09' upper='241.05'/>
+    <roi lower='1133.15' upper='1216.44'/>
+    <roi lower='1410.75' upper='1505.51'/>
+  </nuclide>
+  <nuclide name='Ra226'>
+    <roi lower='168.98' upper='196.35'/>
+    <roi lower='330.39' upper='370.77'/>
+    <roi lower='578.41' upper='634.48'/>
+    <roi lower='1077.76' upper='1158.61'/>
+    <roi lower='1704.86' upper='1810.86'/>
+  </nuclide>
+  <nuclide name='Se75'>
+    <roi lower='64.15' upper='79.87'/>
+    <roi lower='121.09' upper='143.61'/>
+    <roi lower='149.83' upper='175.42'/>
+    <roi lower='179.78' upper='208.07'/>
+    <roi lower='247.76' upper='281.81'/>
+    <roi lower='375.89' upper='419.39'/>
+    <roi lower='542.31' upper='596.20'/>
+  </nuclide>
+  <nuclide name='Ag110m'>
+    <roi lower='179.58' upper='207.87'/>
+    <roi lower='627.61' upper='686.37'/>
+    <roi lower='852.55' upper='922.94'/>
+    <roi lower='1334.21' upper='1425.95'/>
+    <roi lower='1456.28' upper='1552.78'/>
+  </nuclide>
+  <nuclide name='Na22'>
+    <roi lower='163.10' upper='189.93'/>
+    <roi lower='482.98' upper='533.38'/>
+    <roi lower='1228.27' upper='1315.52'/>
+  </nuclide>
+  <nuclide name='Tc99m'>
+    <roi lower='75.41' upper='92.63'/>
+    <roi lower='126.45' upper='149.58'/>
+    <roi lower='301.23' upper='339.51'/>
+  </nuclide>
+  <nuclide name='Tl201'>
+    <roi lower='58.51' upper='73.45'/>
+    <roi lower='83.72' upper='102.01'/>
+    <roi lower='121.73' upper='144.25'/>
+    <roi lower='152.05' upper='177.78'/>
+  </nuclide>
+  <nuclide name='Th232'>
+    <roi lower='162.18' upper='188.87'/>
+    <roi lower='220.35' upper='252.16'/>
+    <roi lower='315.02' upper='354.25'/>
+    <roi lower='554.04' upper='608.60'/>
+    <roi lower='882.60' upper='954.47'/>
+    <roi lower='2545.03' upper='2679.47'/>
+  </nuclide>
+  <nuclide name='U232'>
+    <roi lower='165.69' upper='192.65'/>
+    <roi lower='220.70' upper='252.51'/>
+    <roi lower='481.88' upper='532.28'/>
+    <roi lower='555.31' upper='610.04'/>
+    <roi lower='1536.33' upper='1635.96'/>
+    <roi lower='2540.15' upper='2674.36'/>
+  </nuclide>
+  <nuclide name='U233'>
+    <roi lower='153.46' upper='179.32'/>
+    <roi lower='196.76' upper='226.59'/>
+    <roi lower='296.51' upper='334.35'/>
+    <roi lower='415.01' upper='461.11'/>
+    <roi lower='1514.92' upper='1613.76'/>
+  </nuclide>
+  <nuclide name='U235'>
+    <roi lower='50.10' upper='63.79'/>
+    <roi lower='86.99' upper='105.63'/>
+    <roi lower='130.30' upper='153.88'/>
+    <roi lower='168.98' upper='196.34'/>
+    <roi lower='324.90' upper='364.86'/>
+    <roi lower='960.25' upper='1035.72'/>
+  </nuclide>
+  <nuclide name='U238'>
+    <roi lower='170.61' upper='198.11'/>
+    <roi lower='726.52' upper='790.59'/>
+    <roi lower='959.93' upper='1035.40'/>
+  </nuclide>
+  <nuclide name='Xe133'>
+    <roi lower='69.75' upper='86.23'/>
+    <roi lower='142.89' upper='167.62'/>
+    <roi lower='281.49' upper='318.25'/>
+    <roi lower='359.96' upper='402.37'/>
+  </nuclide>
+</featureExtractor>

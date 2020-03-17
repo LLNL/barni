@@ -1,0 +1,17 @@
+{% extends "!layout.html" %}
+{%- block header %}
+{% if theme_scipy_org_logo %}
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="{{ pathto('index') }}">
+      <img style="border: 0;" alt="BARNI" src="{{ pathto('_static/barni_logo.png', 1) }}"></a>
+    </div>
+  </div>
+</div>
+{% else %}
+  <div class="container">
+    <div class="header">
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

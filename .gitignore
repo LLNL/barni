@@ -1,0 +1,18 @@
+*.pyc
+*~
+*.pkl
+*.gzip
+*.gz
+*.swp
+build
+dist
+*.egg-info
+eggs/
+.DS_Store
+.idea
+cli
+# Sphinx documentation
+doc/_build
+*generated/
+work/
+pyinstaller/

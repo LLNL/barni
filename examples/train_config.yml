@@ -1,0 +1,134 @@
+########################
+# BARNI Training Input #
+########################
+
+# BARNI training routine produces two outputs required for identification:
+# (1) regions of interest and (2) the classifier. Both of these steps
+# require sampling from templates and peak extraction. These intermediate
+# steps can be saved in the directory structure showen below. 
+
+
+# Paths used for loading and saving training steps. The sample creation and peaks
+# are saved in individual source folders. 
+#
+# build 
+# |-- sources
+# |    |-- Cs137
+# |         |-- samples
+# |         |    |-- roi.xml.gz
+# |         |    +-- training.xml.gz
+# |         |-- peaks
+# |         |    |-- roi.xml.gz
+# |         |    +-- training.xml.gz
+# |            
+# |-- roi.xml
+# |-- truth.csv.gz
+# |-- features.csv.gz
+# |-- classifiers.pic
+
+# List of nuclides to include in the final library
+nuclides:
+  - Am241
+  - Ba133
+  - Bi207
+  - Cd109
+  - Cs134
+  - Cs137
+  - Cr51
+  - Co57
+  - Co60
+  - Eu152
+  - Ga67
+  - Ho166m
+  - In111
+  - I123
+  - I131
+  - Ir192
+  - Mn54
+  - Mo99
+  - Np237
+  - Pu239
+  - K40
+  - Ra226
+  - Se75
+  - Ag110m
+  - Na22
+  - Tc99m
+  - Tl201
+  - Th232
+  - U232
+  - U233
+  - U235
+  - U238
+  - Xe133 
+
+# build path where everything is saved
+buildpath : build_test
+ 
+# Defines the regions of interests
+roi_definer: &roi_definer 
+  snr : 5
+  limit : 8
+  min_width : 3
+  output : roi.xml # output needed for identification
+  skip : true
+  save : true
+  peakanalysis:
+    peakfile : spa.xml
+    output : roi.xml.gz
+    skip : false
+    save : true
+    # sample generation for region of interest definition
+    sample_generator:
+      # Each nuclide in the template directory is
+      # templates 
+      # |-- Cs137
+      # |    |-- templates.xml.gz
+      # |-- Co60
+      #      |-- templates.xml.gz
+      template:
+        directory : templates
+        filename : templates.xml.gz
+      counts_low :  50000
+      counts_high : 50000
+      samples : 10
+      output : roi.xml.gz
+      skip : false
+      save : true
+
+# Builds the classifier
+classifier_builder:
+  output : classifiers.pic # output needed for identification
+  skip : false
+  save : true
+  n_estimators : 200
+  max_depth : None
+  n_jobs : 1
+  feature_builder:
+    # the feature builder outputs are compressed CSV files
+    output : 
+      truth : truth_table.csv.gz
+      features : feature_table.csv.gz
+    skip : false
+    save : true
+    peakanalysis:
+      output : training.xml.gz
+      skip : false
+      save : true
+      peakfile : spa.xml
+      sample_generator:
+        output : training.xml.gz
+        skip : false
+        save : true 
+        template:
+          directory : templates
+          filename: templates.xml.gz
+        counts_low :  1000
+        counts_high : 50000
+        samples : 10
+        background : 
+          filepath : templates/bkg.xml
+          fraction_low : 0.05
+          fraction_high : 0.45
+    # roi definition link
+    roi_definer: *roi_definer

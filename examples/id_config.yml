@@ -1,0 +1,10 @@
+############################
+# BARNI Identification Input
+############################
+
+# peakanalysis file defines sensor parameters and peaks search parameters
+peakanalysis : spa.xml 
+# roi contains the regions of interest definitions used by the extractor
+feature_extractor : roi.xml 
+# classifiers that make a determination on the inclide in the input
+classifier : classifiers.pic 

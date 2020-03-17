@@ -18,3 +18,5 @@ docs/_build
 work/
 pyinstaller/
 .tox
+extensions/*.c
+.coverage

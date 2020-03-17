@@ -1,6 +1,5 @@
 from setuptools import setup, Extension
 from Cython.Build import cythonize
-import barni
 
 # cython extensions build by internal setup.py files
 extensions = [
@@ -11,7 +10,7 @@ extensions = [
 setup(
     name='BARNI',
     packages = ['barni'],
-    version=barni.__version__,
+    version='1.0.0',
     author='Mateusz Monterial',
     author_email='mmonterial1@llnl.gov',
     url='https://',

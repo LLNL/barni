@@ -13,7 +13,7 @@ eggs/
 .idea
 cli
 # Sphinx documentation
-doc/_build
+docs/_build
 *generated/
 work/
 pyinstaller/

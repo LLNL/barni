@@ -15,6 +15,7 @@ parameters available for the algorithms.
    barni._peak
    barni._fe
    barni._class
+   barni._math
    barni._label
    barni._plot
    barni._reader

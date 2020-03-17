@@ -19,7 +19,8 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath(os.path.pardir))
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.pardir,'barni')))
+autodoc_mock_imports = ["_barni"] # mock for the cython extension
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.pardir,'barni')))
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -49,7 +50,7 @@ source_suffix = ['.rst','.md']
 #source_encoding = 'utf-8-sig'
 
 # The master toctree document.
-master_doc = 'barni'
+master_doc = 'index'
 
 # General information about the project.
 project = u'BARNI'

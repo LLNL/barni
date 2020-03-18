@@ -43,7 +43,8 @@ from ._bins import EnergyScale, loadEnergyScale
 from ._label import Label, loadLabel
 from ._reader import registerReader
 
-__all__ = ["Spectrum", "Template", "draw_spectrum", "filter_templates", "TemplateList", "SpectrumList"]
+__all__ = ["Spectrum", "Template", "draw_spectrum",
+           "filter_templates", "TemplateList", "SpectrumList"]
 
 
 class Spectrum(Serializable):
@@ -66,7 +67,7 @@ class Spectrum(Serializable):
         title (str): String associated with the spectra.
     """
 
-    def __init__(self, counts, energyScale, rt=1, lt=1, distance = None, gamma_dose = None, title = None):
+    def __init__(self, counts, energyScale, rt=1, lt=1, distance=None, gamma_dose=None, title=None):
         self.counts = np.array(counts)
         self.energyScale = energyScale
         self.livetime = lt
@@ -85,13 +86,16 @@ class Spectrum(Serializable):
             Integral of the counts between the two energies.
         """
         if e2 <= e1:
-            raise ValueError("The second energy must be greater than the first energy (e2 > e1).")
+            raise ValueError(
+                "The second energy must be greater than the first energy (e2 > e1).")
         energyEdges = self.energyScale.getEdges()
         if e1 < energyEdges[0]:
-            warnings.warn("The specified lower energy is outside of the energy scale")
+            warnings.warn(
+                "The specified lower energy is outside of the energy scale")
             e1 = energyEdges[0]
         if e2 > energyEdges[-1]:
-            warnings.warn("The specified higher energy is outside of the energy scale")
+            warnings.warn(
+                "The specified higher energy is outside of the energy scale")
             e2 = energyEdges[-1]
         c3 = self.energyScale.findBin(e1)
         c4 = self.energyScale.findBin(e2)
@@ -118,7 +122,7 @@ class Spectrum(Serializable):
         es = EnergyScale(energyEdges[range(0, len(self.energyScale), 2)])
         out = Spectrum(counts, es, rt, lt)
         # Copy attributes
-        for attr in ["label", "title","distance","gamma_dose"]:
+        for attr in ["label", "title", "distance", "gamma_dose"]:
             if hasattr(self, attr):
                 setattr(out, attr, getattr(self, attr))
         return out
@@ -138,7 +142,7 @@ class Spectrum(Serializable):
         counts = self.counts / bin_width
         return counts
 
-    def toXml(self, name = None):
+    def toXml(self, name=None):
         """ Converts spectrum to XML string
 
         Args:
@@ -154,7 +158,8 @@ class Spectrum(Serializable):
             xml += str(count) + " "
         xml += "</counts>\n"
         xml += textwrap.indent(self.energyScale.toXml(), "  ")
-        attributes = ["livetime", "realtime", "distance", "gamma_dose", "title"]
+        attributes = ["livetime", "realtime",
+                      "distance", "gamma_dose", "title"]
         for attr in attributes:
             if hasattr(self, attr):
                 value = getattr(self, attr)
@@ -165,10 +170,12 @@ class Spectrum(Serializable):
         xml += "</Spectrum>\n"
         return xml
 
+
 class SpectrumList(Serializable, UserList):
     """ List of Spectra
     """
-    def addSpectrum(self, input : Spectrum):
+
+    def addSpectrum(self, input: Spectrum):
         self.data.append(input)
 
     def toXml(self):
@@ -179,7 +186,7 @@ class SpectrumList(Serializable, UserList):
         return xml
 
 
-def draw_spectrum(spectrum : Spectrum, counts):
+def draw_spectrum(spectrum: Spectrum, counts):
     ''' Re-samples counts from a provided spectra using poisson statistics.
 
     Ideally the provided spectra should be a normalized model.
@@ -221,15 +228,15 @@ class Template(Serializable):
         xml += "</Template>\n"
         return xml
 
+
 class TemplateList(Serializable, UserList):
     """ List of Templates
 
     Useful class for holding the intermediate results of the training routine.
     """
 
-    def addTemplate(self, input : Template):
+    def addTemplate(self, input: Template):
         self.data.append(input)
-
 
     def toXml(self):
         xml = "<TemplateList>\n"
@@ -263,6 +270,7 @@ def filter_templates(templates, z=0, ad=0):
     ind = int(spatial.KDTree(shielding).query([z, ad])[1])
     return templates[ind]
 
+
 def loadSpectrum(context, element):
     """
     Reads in spectrum from XML document.
@@ -277,7 +285,7 @@ def loadSpectrum(context, element):
 
     stringFields = ['title']
 
-    out = Spectrum(counts = None, energyScale = None)
+    out = Spectrum(counts=None, energyScale=None)
     for node in element.childNodes:
         # skip all but elements
         if node.nodeType != node.ELEMENT_NODE:
@@ -298,6 +306,7 @@ def loadSpectrum(context, element):
     out.counts = counts
     out.energyScale = energyScale
     return out
+
 
 def loadTemplate(context, element):
     """
@@ -331,6 +340,7 @@ def loadTemplateList(context, element):
         context.raiseElementError(element, node)
     return out
 
+
 def loadSpectrumList(context, element):
     out = SpectrumList()
     for node in element.childNodes:
@@ -342,6 +352,7 @@ def loadSpectrumList(context, element):
             continue
         context.raiseElementError(element, node)
     return out
+
 
 registerReader("Spectrum", loadSpectrum)
 registerReader("SpectrumList", loadSpectrumList)

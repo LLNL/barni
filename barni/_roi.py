@@ -46,7 +46,7 @@ from typing import List
 __all__ = ['defineRegions', 'filterPeakResults']
 
 
-def filterPeakResults(peakresults : List[PeakResult], lower=40, upper=6000, snr = 5) -> List[Peak]:
+def filterPeakResults(peakresults: List[PeakResult], lower=40, upper=6000, snr=5) -> List[Peak]:
     """
     Filters peak results and returns a list of peaks
 
@@ -75,7 +75,8 @@ def filterPeakResults(peakresults : List[PeakResult], lower=40, upper=6000, snr 
     peaks.sort(key=lambda p: p.energy)
     return peaks
 
-def defineRegions(peakresults : List[PeakResult], sensor, limit=8, fraction=0.05, min_width = 1, **kargs):
+
+def defineRegions(peakresults: List[PeakResult], sensor, limit=8, fraction=0.05, min_width=1, **kargs):
     """
     Heuristic algorithm that automatically selects the
     region of interest that describe a nuclide.
@@ -98,7 +99,6 @@ def defineRegions(peakresults : List[PeakResult], sensor, limit=8, fraction=0.05
     scales = [int(4 * n * fraction), int(2 * n * fraction), int(n * fraction)]
     regions = []
 
-
     for scale in scales:
         while len(peaks) > scale:
             u = np.array([p.energy for p in peaks])
@@ -115,15 +115,15 @@ def defineRegions(peakresults : List[PeakResult], sensor, limit=8, fraction=0.05
                 # go to the next scale
                 break
 
-
-            roi = RegionOfInterest(u2[ix] - resolution / 2, u2[ix] + resolution / 2)
-            p3 = [ p.energy for p in peaks if p.energy in roi]
+            roi = RegionOfInterest(
+                u2[ix] - resolution / 2, u2[ix] + resolution / 2)
+            p3 = [p.energy for p in peaks if p.energy in roi]
             mean = np.mean(p3)
             std = np.std(p3)
             # print(scale,resolution,6*std)
             width = np.max([3 * std, resolution * (0.5 * min_width)])
             roi = RegionOfInterest(mean - width, mean + width)
-            peaks = [ p for p in peaks if not p.energy in roi]
+            peaks = [p for p in peaks if not p.energy in roi]
             regions.append(roi)
 
             if len(regions) == limit:
@@ -153,7 +153,8 @@ def computeCoverage(trainingSamples, regions):
                 ts.covered = True
                 continue
 
-#FIXME Convert to bokeh!
+
+# FIXME Convert to bokeh!
 '''
 def plotCovered(peakresults, regions=None, **kargs):
     """ Plots the results of running the regions of interest file

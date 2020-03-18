@@ -52,23 +52,24 @@ class FeatureExtractorNuclide(object):
         self.name = ""
         self._rois = []
 
-    def setName(self, name : str):
+    def setName(self, name: str):
         """
         Args:
             name: Name of the nuclide
         """
         self.name = name
 
-    def addRegion(self, region : RegionOfInterest):
+    def addRegion(self, region: RegionOfInterest):
         """
         Args:
             region: Region of interest
         """
         self._rois.append(region)
 
-    def addRegions(self, regions : List[RegionOfInterest]):
+    def addRegions(self, regions: List[RegionOfInterest]):
         for r in regions:
             self.addRegion(r)
+
 
 class FeaturesROI(Features):
     def __init__(self):
@@ -112,7 +113,7 @@ class FeatureExtractorROI(FeatureExtractor, Serializable):
             out._map[label + "total"] = total
         return out
 
-    def addNuclide(self, nuclide : FeatureExtractorNuclide):
+    def addNuclide(self, nuclide: FeatureExtractorNuclide):
         """ Adds a nuclide to the feature extractor
         Args:
             nuclide (FeatureExtractorNuclide):
@@ -125,11 +126,11 @@ class FeatureExtractorROI(FeatureExtractor, Serializable):
             xml += "  <nuclide name='%s'>\n" % nuclide.name
             nuclide._rois.sort(key=lambda x: x.lower)
             for roi in nuclide._rois:
-                xml += "    <roi lower='%.2f' upper='%.2f'/>\n" % (roi.lower, roi.upper)
+                xml += "    <roi lower='%.2f' upper='%.2f'/>\n" % (
+                    roi.lower, roi.upper)
             xml += "  </nuclide>\n"
         xml += "</FeatureExtractorROI>\n"
         return xml
-
 
     def getTruthLabels(self):
         """ Create a set of labels to use for truth in a pandas dataframe """
@@ -169,6 +170,8 @@ class FeatureExtractorROI(FeatureExtractor, Serializable):
         return feature_extractor
 
 # Loaders
+
+
 def loadRegionOfInterest(context, element):
     '''
     Converts a dom element into a RegionOfInterest object
@@ -222,6 +225,7 @@ def loadFeatureExtractorROI(context, element):
         raise ValueError("Bad tag %s" % node.tagName)
 
     return out
+
 
 registerReader("FeatureExtractorROI", loadFeatureExtractorROI)
 # FIXME backward compatibility, remove in future release

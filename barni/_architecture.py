@@ -50,6 +50,7 @@ __all__ = [
     'Classifier'
 ]
 
+
 class Serializable(ABC):
     """ BARNI classes which can be serialized to XML or
         compressed XML classes.
@@ -60,7 +61,7 @@ class Serializable(ABC):
         """ Converts spectrum to XML string
         """
 
-    def write(self, file : (pathlib.Path, str), compress=False):
+    def write(self, file: (pathlib.Path, str), compress=False):
         """ Dump template to XML file, or comptessed file
         Args:
             file (Path, str): Path to file.
@@ -68,10 +69,11 @@ class Serializable(ABC):
         """
         if compress:
             with gzip.open(file, "w") as fd:
-                fd.write(bytes(self.toXml(),'utf-8'))
+                fd.write(bytes(self.toXml(), 'utf-8'))
         else:
             with open(file, 'w') as fd:
                 fd.write(self.toXml())
+
 
 class IdentificationInput(Serializable):
     """
@@ -109,6 +111,7 @@ class IdentificationInput(Serializable):
         xml += "  <distance>" + str(self.distance) + "</distance>\n"
         xml += "</IdentificationInput>\n"
         return xml
+
 
 class RegionOfInterest(object):
     """  Generic concept of a region of interest.
@@ -191,7 +194,6 @@ class Peak(Serializable):
         return xml
 
 
-
 class PeakResult(Serializable):
     """ Results from the peak extraction procedure.
     """
@@ -222,6 +224,7 @@ class PeakResult(Serializable):
         Returns: Spectrum
         """
 
+
 class PeakResults(Serializable):
     """ Container for peak results for different components of identification input.
 
@@ -248,6 +251,7 @@ class PeakResults(Serializable):
             xml += "</scale_factor>\n"
         xml += "</PeakResults>\n"
         return xml
+
 
 class PeakAnalysis(ABC):
     """
@@ -290,6 +294,7 @@ class Features(ABC):
     def getDataFrame(self):
         """ Returns data frame representation of the features """
 
+
 class FeatureExtractor(ABC):
     """
     Algorithm which takes the features produced by the feature extractor and
@@ -316,6 +321,7 @@ class FeatureExtractor(ABC):
 # and applies a seperate classifier for each nuclide in our set of interest.
 # It then produces a result indicating the presence of sources that it
 # analyzed.
+
 
 class NuclideResult(Serializable):
     """ An individual nuclide that was determined to be present.
@@ -353,6 +359,7 @@ class NuclideResult(Serializable):
                     xml += "</%s>\n" % attr
         xml += "</NuclideResult>\n"
         return xml
+
 
 class Classifications(ABC):
     """
@@ -438,18 +445,17 @@ class TrainingStageInput():
         self.save = bool(doc["save"])
         self.skip = bool(doc["skip"])
 
-    def SetSkip(self, skip : bool):
+    def SetSkip(self, skip: bool):
         """
         Args:
             skip: If true the stage is skipped over.
         """
         self.skip = skip
 
-    def SetSave(self, save : bool):
+    def SetSave(self, save: bool):
         """
         Args:
             save (bool) : If true the output of the stage are saved.
                 This output is required for
         """
         self.save = save
-

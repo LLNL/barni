@@ -89,5 +89,5 @@ __all__.extend(_plot.__all__)
 __all__.extend(_result.__all__)
 __all__.extend(_math.__all__)
 
-__version_info__ = (1,0,0)
+__version_info__ = (1, 0, 0)
 __version__ = ".".join(str(i) for i in __version_info__)

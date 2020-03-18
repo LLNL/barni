@@ -166,6 +166,7 @@ class EnergyScale(Serializable):
         xml += "</EnergyScale>\n"
         return xml
 
+
 def loadEnergyScale(context, element):
     """
     Converts a dom element into a FeatureExtractor object
@@ -181,5 +182,5 @@ def loadEnergyScale(context, element):
     out = EnergyScale(edges)
     return out
 
-registerReader("EnergyScale", loadEnergyScale)
 
+registerReader("EnergyScale", loadEnergyScale)

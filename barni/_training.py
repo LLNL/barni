@@ -42,13 +42,14 @@ from random import choices
 from ._architecture import FeatureExtractor, PeakAnalysis, TrainingStageInput, IdentificationInput
 from ._id import IdentificationInputList
 from ._peak import PeakResultsList
-from ._spectrum import  draw_spectrum, Template, TemplateList
+from ._spectrum import draw_spectrum, Template, TemplateList
 from ._roi import defineRegions
 from ._fe import FeatureExtractorROI, FeatureExtractorNuclide
 from ._class import RandomForestClassifiers
 from ._reader import loadXml
 
-__all__ = ["TrainProcessor", "SampleGenerator", "PeakProcessor", "TrainingInput", "FeatureBuilder"]
+__all__ = ["TrainProcessor", "SampleGenerator",
+           "PeakProcessor", "TrainingInput", "FeatureBuilder"]
 
 
 class SampleGenerator(object):
@@ -59,9 +60,8 @@ class SampleGenerator(object):
 
     """
 
-
-    def getInputs(self, templates_list : TemplateList, counts,
-                  samples : int = None, background : Template = None, fraction = None) -> IdentificationInputList:
+    def getInputs(self, templates_list: TemplateList, counts,
+                  samples: int = None, background: Template = None, fraction=None) -> IdentificationInputList:
         """
         Args:
             templates_list: TemplateList to draw from for sampling.
@@ -97,7 +97,8 @@ class SampleGenerator(object):
                 bkg_counts = sample_spectrum.counts.sum() * fraction()
                 bkg_spectrum = draw_spectrum(background.spectrum, bkg_counts)
                 sample_spectrum.counts = sample_spectrum.counts + bkg_spectrum.counts
-            id_input = IdentificationInput(sample_spectrum, label=template.label)
+            id_input = IdentificationInput(
+                sample_spectrum, label=template.label)
             id_inputs.addInput(id_input)
         return id_inputs
 
@@ -110,10 +111,10 @@ class PeakProcessor(object):
         spa (PeakAnalysis): Peak analysis algorithm to use for processing.
     """
 
-    def __init__(self, spa : PeakAnalysis):
+    def __init__(self, spa: PeakAnalysis):
         self.spa = spa
 
-    def analyze(self, id_inputs : IdentificationInputList) -> PeakResultsList:
+    def analyze(self, id_inputs: IdentificationInputList) -> PeakResultsList:
         """ Runs the peak analysis on provided list of inputs
 
         Args:
@@ -141,10 +142,10 @@ class FeatureBuilder(object):
         feature_extractor (FeatureExtractor): Feature extractor
     """
 
-    def __init__(self, feature_extractor : FeatureExtractor):
+    def __init__(self, feature_extractor: FeatureExtractor):
         self.feature_extractor = feature_extractor
 
-    def build(self, peakresults : PeakResultsList, nuclide : str):
+    def build(self, peakresults: PeakResultsList, nuclide: str):
         """
         Processes all the peak results from a specified nuclide and creates a feature and truth table.
 
@@ -166,7 +167,7 @@ class FeatureBuilder(object):
         features0 = pandas.DataFrame(
             0, columns=featureLabels, index=range(
                 0, len(peakresults)), dtype=np.float)
-        if (nuclide!="bkg" and nuclide!="background"):
+        if (nuclide != "bkg" and nuclide != "background"):
             truth0.loc[:, label] = 1
         for i, sample in enumerate(peakresults):
             f = self.feature_extractor.extract(sample)
@@ -187,7 +188,8 @@ class SampleGeneratorInput(TrainingStageInput):
         fraction (function): Returns the fraction of background contribution in the drawn sample.
         output (str) : The name of the output file.
     """
-    def __init__(self, template = None, counts = None, samples = None, background = None, fraction = None, output = None):
+
+    def __init__(self, template=None, counts=None, samples=None, background=None, fraction=None, output=None):
         if template is None:
             self.template = self.TemplateInput()
         else:
@@ -204,13 +206,15 @@ class SampleGeneratorInput(TrainingStageInput):
         super().unpack(doc)
         self.output = doc["output"]
         self.template.unpack(doc["template"])
-        self.counts = lambda : np.exp(np.random.uniform(np.log(doc['counts_low']), np.log(doc['counts_high'])))
+        self.counts = lambda: np.exp(np.random.uniform(
+            np.log(doc['counts_low']), np.log(doc['counts_high'])))
         if type(doc["samples"]) is int:
             self.samples = int(doc["samples"])
         elif str(doc["samples"]).lower() == "none":
             self.samples = None
         else:
-            raise RuntimeError("Sample generator paremeter samples must be either an integer or 'None'")
+            raise RuntimeError(
+                "Sample generator paremeter samples must be either an integer or 'None'")
         if "background" in doc:
             self._unpack_background(doc["background"])
         else:
@@ -221,7 +225,8 @@ class SampleGeneratorInput(TrainingStageInput):
         # eval is quite dangerous on untested strings
         filepath = Path(doc["filepath"])
         self.background = loadXml(str(filepath))
-        self.fraction = lambda : np.random.uniform(doc["fraction_low"], doc["fraction_high"])
+        self.fraction = lambda: np.random.uniform(
+            doc["fraction_low"], doc["fraction_high"])
 
     class TemplateInput():
         """ Holds inputs for template reading
@@ -233,7 +238,7 @@ class SampleGeneratorInput(TrainingStageInput):
             filename: The name of file with TemplateList inside the nuclide folders.
         """
 
-        def __init__(self, sourcepath = None, filename = None):
+        def __init__(self, sourcepath=None, filename=None):
             self.sourcepath = sourcepath
             self.filename = filename
 
@@ -252,7 +257,7 @@ class PeakAnalysisInput(TrainingStageInput):
         output(str) : Output file name.
     """
 
-    def __init__(self, sample_generator : SampleGeneratorInput = None, spa : PeakAnalysis = None, output : str = None):
+    def __init__(self, sample_generator: SampleGeneratorInput = None, spa: PeakAnalysis = None, output: str = None):
         if sample_generator is None:
             self.sample_generator = SampleGeneratorInput()
         else:
@@ -264,7 +269,7 @@ class PeakAnalysisInput(TrainingStageInput):
         super().unpack(doc)
         self.sample_generator.unpack(doc["sample_generator"])
         self.output = str(doc["output"])
-        self.spa =  loadXml(doc["peakfile"])
+        self.spa = loadXml(doc["peakfile"])
 
 
 class RoiDefinerInput(TrainingStageInput):
@@ -280,7 +285,7 @@ class RoiDefinerInput(TrainingStageInput):
 
     """
 
-    def __init__(self, peakanalysis=None, snr = None, limit = None, min_width = None, output = None):
+    def __init__(self, peakanalysis=None, snr=None, limit=None, min_width=None, output=None):
 
         if peakanalysis is None:
             self.peakanalysis = PeakAnalysisInput()
@@ -299,6 +304,7 @@ class RoiDefinerInput(TrainingStageInput):
         self.limit = int(doc["limit"])
         self.min_width = int(doc["min_width"])
 
+
 class FeatureBuilderInput(TrainingStageInput):
     """
     Unpacks the feature and truth table definition inputs.
@@ -308,7 +314,7 @@ class FeatureBuilderInput(TrainingStageInput):
         output : Table builder output files
     """
 
-    def __init__(self, peakanalysis : PeakAnalysisInput = None, roi_definer : RoiDefinerInput = None, output = None):
+    def __init__(self, peakanalysis: PeakAnalysisInput = None, roi_definer: RoiDefinerInput = None, output=None):
         if peakanalysis is None:
             self.peakanalysis = PeakAnalysisInput()
         else:
@@ -341,7 +347,8 @@ class FeatureBuilderInput(TrainingStageInput):
 class ClassifierBuilderInput(TrainingStageInput):
     """ Inputs for the classifier (random forest only)
     """
-    def __init__(self,  feature_builder = None, n_estimators = None, max_depth = None, n_jobs = None, output = None):
+
+    def __init__(self,  feature_builder=None, n_estimators=None, max_depth=None, n_jobs=None, output=None):
         if feature_builder is None:
             self.feature_builder = FeatureBuilderInput()
         else:
@@ -367,7 +374,8 @@ class ClassifierBuilderInput(TrainingStageInput):
         elif str(doc).lower() == "none":
             para = None
         else:
-            raise RuntimeError("Classifier paremeter %s must be either an integer or 'None'" % name)
+            raise RuntimeError(
+                "Classifier paremeter %s must be either an integer or 'None'" % name)
         return para
 
 
@@ -424,10 +432,12 @@ class TrainProcessor():
         # Classifier builder step
         if self.train_input.classifier_builder.skip:
             # this call is to ensure that feature extractor building can be called even if classification is skipped
-            self.getFeatureExtractor(self.train_input.classifier_builder.feature_builder.roi_definer)
+            self.getFeatureExtractor(
+                self.train_input.classifier_builder.feature_builder.roi_definer)
             print("Skipping the classifier building")
         else:
-            features, truth = self.getFeatures(self.train_input.classifier_builder.feature_builder)
+            features, truth = self.getFeatures(
+                self.train_input.classifier_builder.feature_builder)
             classifiers = RandomForestClassifiers()
             n_estimators = self.train_input.classifier_builder.n_estimators
             max_depth = self.train_input.classifier_builder.max_depth
@@ -435,42 +445,50 @@ class TrainProcessor():
             for nuclide in self.train_input.nuclides:
                 # skip training for background
                 if nuclide == "bkg" or nuclide == "background":
-                    print("Skipping classifier building for %s"  % nuclide)
+                    print("Skipping classifier building for %s" % nuclide)
                     continue
                 print("training classifier for %s \n" % nuclide)
-                classifiers.train(features, truth[nuclide], nuclide, n_estimators=n_estimators, max_depth=max_depth, n_jobs = n_jobs)
+                classifiers.train(
+                    features, truth[nuclide], nuclide, n_estimators=n_estimators, max_depth=max_depth, n_jobs=n_jobs)
             if self.train_input.classifier_builder.save:
-                cls_file = self.train_input.buildpath.joinpath(self.train_input.classifier_builder.output)
+                cls_file = self.train_input.buildpath.joinpath(
+                    self.train_input.classifier_builder.output)
                 os.makedirs(cls_file.parent, exist_ok=True)
                 classifiers.save(cls_file)
 
-
-    def getFeatures(self, feature_builder_input : FeatureBuilderInput):
+    def getFeatures(self, feature_builder_input: FeatureBuilderInput):
         """ Retrieves the feature and truth data frames
         Args:
             feature_builder: Feature builder input definitions
         """
-        f_file = self.train_input.buildpath.joinpath(feature_builder_input.output.features)
-        t_file = self.train_input.buildpath.joinpath(feature_builder_input.output.truth)
-        feature_extractor = self.getFeatureExtractor(feature_builder_input.roi_definer)
+        f_file = self.train_input.buildpath.joinpath(
+            feature_builder_input.output.features)
+        t_file = self.train_input.buildpath.joinpath(
+            feature_builder_input.output.truth)
+        feature_extractor = self.getFeatureExtractor(
+            feature_builder_input.roi_definer)
         if feature_builder_input.skip:
             if f_file.exists() and t_file.exists():
-                print("Skipping feature building, reading from %s and %s" % (f_file.name, t_file.name))
+                print("Skipping feature building, reading from %s and %s" %
+                      (f_file.name, t_file.name))
                 features = pandas.read_csv(f_file)
                 truth = pandas.read_csv(t_file)
             else:
-                raise RuntimeError("%s or %s files not found" % (f_file.name, t_file.name))
+                raise RuntimeError("%s or %s files not found" %
+                                   (f_file.name, t_file.name))
         else:
             # check that the feature extractor has all the nuclides
             fe_nuclides = feature_extractor.getTruthLabels()
             if set(fe_nuclides) != set(self.train_input.nuclides):
-                raise RuntimeError("Input nuclides and feature extractor must have the same nuclides!")
+                raise RuntimeError(
+                    "Input nuclides and feature extractor must have the same nuclides!")
             feature_builder = FeatureBuilder(feature_extractor)
             truth_ = []
             features_ = []
             for nuclide in self.train_input.nuclides:
                 print("building features for %s \n" % nuclide)
-                id_peaks = self.getPeaks(feature_builder_input.peakanalysis, nuclide)
+                id_peaks = self.getPeaks(
+                    feature_builder_input.peakanalysis, nuclide)
                 fe, tu = feature_builder.build(id_peaks, nuclide)
                 truth_.append(tu)
                 features_.append(fe)
@@ -483,20 +501,23 @@ class TrainProcessor():
                 truth.to_csv(t_file, index=False)
         # check the feature extractor and feature table are consistant
         if feature_extractor.getFeatureLabels() != list(features.columns):
-            raise RuntimeError("Feature table labels and feature extractor labels must be identical!")
+            raise RuntimeError(
+                "Feature table labels and feature extractor labels must be identical!")
         return features, truth
 
-    def getFeatureExtractor(self, roi_definer : RoiDefinerInput):
+    def getFeatureExtractor(self, roi_definer: RoiDefinerInput):
         """ Returns feature extractor or feature definitions
         """
         # ROI definition stage
         roi_file = self.train_input.buildpath.joinpath(roi_definer.output)
         if roi_definer.skip:
             if roi_file.exists():
-                print("Skipping region definer, reading definitions from %s \n" % roi_file.name)
+                print(
+                    "Skipping region definer, reading definitions from %s \n" % roi_file.name)
                 feature_extractor = loadXml(str(roi_file))
             else:
-                raise RuntimeError("%s region of interest definition file does not exists!" % roi_file.name)
+                raise RuntimeError(
+                    "%s region of interest definition file does not exists!" % roi_file.name)
         else:
             feature_extractor = FeatureExtractorROI()
             for nuclide in self.train_input.nuclides:
@@ -511,26 +532,28 @@ class TrainProcessor():
                 feature_extractor.write(roi_file)
         return feature_extractor
 
-    def getRegions(self, roi_definer : RoiDefinerInput, nuclide):
+    def getRegions(self, roi_definer: RoiDefinerInput, nuclide):
         """ Provides regions for a specific nuclide
         """
         roi_peaks = self.getPeaks(roi_definer.peakanalysis, nuclide)
         roi_peaks = [p.sample for p in roi_peaks]
         regions = defineRegions(roi_peaks, roi_definer.peakanalysis.spa.sensor,
-                                snr=roi_definer.snr, limit=roi_definer.limit, min_width = roi_definer.min_width)
+                                snr=roi_definer.snr, limit=roi_definer.limit, min_width=roi_definer.min_width)
         return regions
 
-    def getPeaks(self, peakanalysis : PeakAnalysisInput, nuclide) -> PeakResultsList:
+    def getPeaks(self, peakanalysis: PeakAnalysisInput, nuclide) -> PeakResultsList:
         """ Provides peak results, saves results if required.
         """
         peak_file = Path("sources", nuclide, "peaks", peakanalysis.output)
         if peakanalysis.skip:
             file = self.train_input.buildpath.joinpath(peak_file)
             if file.exists():
-                print("Skipping peak extraction for %s, reading from %s" % (nuclide,peak_file.name))
+                print("Skipping peak extraction for %s, reading from %s" %
+                      (nuclide, peak_file.name))
                 peak_results = loadXml(file)
             else:
-                raise RuntimeError("Peaks for %s must exist to skip peak finding step" % nuclide)
+                raise RuntimeError(
+                    "Peaks for %s must exist to skip peak finding step" % nuclide)
         else:
             id_inputs = self.getInputs(peakanalysis.sample_generator, nuclide)
             peak_processor = PeakProcessor(peakanalysis.spa)
@@ -541,25 +564,30 @@ class TrainProcessor():
                 peak_results.write(file, compress=True)
         return peak_results
 
-    def getInputs(self, sg_input : SampleGeneratorInput, nuclide) -> IdentificationInputList:
+    def getInputs(self, sg_input: SampleGeneratorInput, nuclide) -> IdentificationInputList:
         """ Provides identification inputs, saves results if required
         """
         inputs_file = Path("sources", nuclide, "samples", sg_input.output)
         if sg_input.skip:
             file = self.train_input.buildpath.joinpath(inputs_file)
             if file.exists():
-                print("Skipping sampling for %s, reading from %s" % (nuclide, inputs_file.name))
+                print("Skipping sampling for %s, reading from %s" %
+                      (nuclide, inputs_file.name))
                 id_inputs = loadXml(file)
             else:
-                raise RuntimeError("Inputs for %s must exist to input generation step" % nuclide)
+                raise RuntimeError(
+                    "Inputs for %s must exist to input generation step" % nuclide)
         else:
-            path = sg_input.template.sourcepath.joinpath(nuclide, sg_input.template.filename)
+            path = sg_input.template.sourcepath.joinpath(
+                nuclide, sg_input.template.filename)
             if not path.exists():
-                raise RuntimeError("%s nuclide template path does not exist" % nuclide)
+                raise RuntimeError(
+                    "%s nuclide template path does not exist" % nuclide)
             else:
                 templates = loadXml(path)
             samp_gen = SampleGenerator()
-            id_inputs = samp_gen.getInputs(templates, sg_input.counts, sg_input.samples, sg_input.background, sg_input.fraction)
+            id_inputs = samp_gen.getInputs(
+                templates, sg_input.counts, sg_input.samples, sg_input.background, sg_input.fraction)
             if sg_input.save:
                 file = self.train_input.buildpath.joinpath(inputs_file)
                 os.makedirs(file.parent, exist_ok=True)

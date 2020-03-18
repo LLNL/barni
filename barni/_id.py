@@ -48,7 +48,6 @@ __all__ = [
 ]
 
 
-
 class IdentificationInputList(Serializable, UserList):
     """ Holds a list of Identification Inputs.
 
@@ -57,7 +56,7 @@ class IdentificationInputList(Serializable, UserList):
         inputs when the results are cached.
     """
 
-    def addInput(self, input : IdentificationInput):
+    def addInput(self, input: IdentificationInput):
         self.data.append(input)
 
     def toXml(self):
@@ -66,6 +65,7 @@ class IdentificationInputList(Serializable, UserList):
             xml += textwrap.indent(input.toXml(), "  ")
         xml += "</IdentificationInputList>\n"
         return xml
+
 
 class IdentificationResult(object):
     """
@@ -122,13 +122,14 @@ class IdentificationAlgorithm(object):
         result.classifications = self.classifier.classify(result.features)
         return result
 
+
 class IdentificationAlgorithmInput(object):
     """
     The inputs required for the identification algorithm for the command line interface.
     """
 
-    def __init__(self, peakanalysis : PeakAnalysis = None, feature_extractor : FeatureExtractor = None,
-                       classifiers : Classifier = None):
+    def __init__(self, peakanalysis: PeakAnalysis = None, feature_extractor: FeatureExtractor = None,
+                 classifiers: Classifier = None):
         self.peakanalysis = peakanalysis
         self.feature_extractor = feature_extractor
         self.classifiers = classifiers
@@ -154,12 +155,13 @@ class IdentificationAlgorithmInput(object):
         self.feature_extractor = loadXml(doc["feature_extractor"])
         self.classifiers = Classifier.load(doc["classifier"])
 
+
 def loadIdentificationInput(context, element):
     """
     Reads in spectrum from XML document.
     """
 
-    out = IdentificationInput(sample = None)
+    out = IdentificationInput(sample=None)
     for node in element.childNodes:
         # skip all but elements
         if node.nodeType != node.ELEMENT_NODE:
@@ -198,6 +200,7 @@ def loadIdentificationInputList(context, element):
             continue
         context.raiseElementError(element, node)
     return out
+
 
 registerReader("IdentificationInput", loadIdentificationInput)
 registerReader("IdentificationInputList", loadIdentificationInputList)

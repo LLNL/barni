@@ -65,7 +65,8 @@ class GaussianSensorModel(arch.SensorModel):
         """
 
         xml = "<GaussianSensorModel>\n"
-        attributes = ["resolution", "resolutionEnergy", "electronicNoise", "wideningPower"]
+        attributes = ["resolution", "resolutionEnergy",
+                      "electronicNoise", "wideningPower"]
         for attr in attributes:
             if hasattr(self, attr):
                 value = getattr(self, attr)
@@ -75,7 +76,6 @@ class GaussianSensorModel(arch.SensorModel):
                     xml += "</%s>\n" % attr
         xml += "</GaussianSensorModel>\n"
         return xml
-
 
     def _updateCoefficients(self):
         fwhmRef_kev = self.resolution * self.resolutionEnergy
@@ -175,6 +175,7 @@ def loadGaussianSensorModel(context, element):
     out._updateCoefficients()
 
     return out
+
 
 _reader.registerReader("GaussianSensorModel", loadGaussianSensorModel)
 _reader.registerReader("gaussianSensorModel", loadGaussianSensorModel)

@@ -43,7 +43,6 @@ from sklearn.ensemble import RandomForestClassifier
 __all__ = ['RandomForestClassifiers', 'RandomForestClassifications']
 
 
-
 class RandomForestClassifications(arch.Classifications):
     """ Stores the results of the random forrest classification.
     """
@@ -80,7 +79,7 @@ class RandomForestClassifiers(arch.Classifier):
         self._classifiers = {}
         self._thresholds = {}
 
-    def add_classifier(self, cls : RandomForestClassifier, nuclide : str, thresh = 0.5):
+    def add_classifier(self, cls: RandomForestClassifier, nuclide: str, thresh=0.5):
         """
 
         Args:
@@ -94,7 +93,7 @@ class RandomForestClassifiers(arch.Classifier):
         self._classifiers[nuclide] = cls
         self._thresholds[nuclide] = thresh
 
-    def train(self, features, truth, nuclide : str, **kargs):
+    def train(self, features, truth, nuclide: str, **kargs):
         """ Traing a single classifier and add it to the list
 
         Args:
@@ -105,10 +104,10 @@ class RandomForestClassifiers(arch.Classifier):
 
         rf = RandomForestClassifier(**kargs)
         cls = rf.fit(features, truth)
-        cls.n_jobs = 1 # bug with predictions being slow due to thread-locking
+        cls.n_jobs = 1  # bug with predictions being slow due to thread-locking
         self._classifiers[nuclide] = cls
 
-    def train_all(self, features : DataFrame, truth : DataFrame, **kargs):
+    def train_all(self, features: DataFrame, truth: DataFrame, **kargs):
         """ Trains multiple classifiers at once, using the column labels from the training dable
 
         Args:
@@ -153,4 +152,3 @@ class RandomForestClassifiers(arch.Classifier):
             nr = arch.NuclideResult(nuc, prob, predict)
             classifications.addNuclideResult(nr)
         return classifications
-

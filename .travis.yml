@@ -1,9 +1,13 @@
 language: python
-python:
-  - "3.6"
-  - "3.7"
+
+matrix:
+  include:
+    - python: 3.6
+      env: TOXENV=py36
+
+
 install: 
-  - pip install tox-travis
+  - pip install tox
   - pip install cython
 
 script: tox

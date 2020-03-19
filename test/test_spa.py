@@ -28,22 +28,50 @@
 ###############################################################################
 
 import unittest
-from barni._spa import SmoothPeakResult
-from barni import Peak, RegionOfInterest
+import barni._spa as spa
+from barni import Peak, RegionOfInterest, EnergyScale, Spectrum, GaussianSensorModel
+import numpy as np
 
 class SmoothPeakResultTestCase(unittest.TestCase):
     def setUp(self):
+        # create a synthetic result
         peak = Peak(600, 1, 0, 10)
-        self.spa = SmoothPeakResult([peak], None, None)
+        self.peakresult = spa.SmoothPeakResult([peak], None, None)
+        # create synthetic spectra
+        # setup a generic spectrum with one peak
+        self.sensor = GaussianSensorModel(10)
+        channels = np.arange(0,100)
+        linear = channels * -0.1 + 100
+        std = 2
+        loc = 50
+        peak = np.exp(-0.5 * ((channels - loc) / std) ** 2) / (std * np.sqrt(2 * np.pi)) * 100
+        counts = linear + peak
+        es = EnergyScale(np.arange(0, 303,3)) # 3 keV per channel
+        self.spectrum = Spectrum(counts, es)
 
     def test_roi(self):
         roi = RegionOfInterest(590, 610)
-        peak = self.spa.getRegionOfInterest(roi)
+        peak = self.peakresult.getRegionOfInterest(roi)
         self.assertAlmostEqual(peak.energy, 600, places=7)
-        self.assertAlmostEqual(peak.intensity, 0.682689492137, places=7)
+        self.assertAlmostEqual(peak.intensity, 0.68268949, places=7)
         roi = RegionOfInterest(600, 99999999999999)
-        peak = self.spa.getRegionOfInterest(roi)
+        peak = self.peakresult.getRegionOfInterest(roi)
         self.assertAlmostEqual(peak.intensity, 0.5, places=7)
+
+    def test_computeBaseline(self):
+        baseline, smooth = spa.computeBaseline(self.spectrum.counts, mu=1)
+        self.assertAlmostEqual(baseline.sum(), 9547.53704528, places=7)
+        self.assertAlmostEqual(self.spectrum.counts.sum(), smooth.sum())
+
+    def test_getInitialPeaks(self):
+        baseline, smooth = spa.computeBaseline(self.spectrum.counts, mu=1)
+        peaks = spa.getInitialPeaks(self.spectrum.counts, baseline, self.spectrum.energyScale, sensor=self.sensor, lld=10, mu=1)
+        self.assertEqual(1, len(peaks))
+        peak = peaks[0]
+        self.assertAlmostEqual(peak.channel, 50.0008601, places=7)
+        self.assertAlmostEqual(peak.energy, 150.0025804, places=7)
+        self.assertAlmostEqual(peak.intensity, 10.0720293, places=7)
+
 
 if __name__ == "main":
     unittest.main()

@@ -77,7 +77,7 @@ def computeBaseline(y, mu=1):
     return x, u
 
 
-def getInitialPeaks(y, b, es, sensor=None, lld=45, mu=1):
+def getInitialPeaks(y, b, es, sensor, lld=45, mu=1):
     """ Function to get estimating initial peaks.
 
        This is based on derivate based method of scanning for location inflection points.

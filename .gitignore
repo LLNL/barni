@@ -20,3 +20,4 @@ pyinstaller/
 .tox
 extensions/*.c
 .coverage
+htmlcov/

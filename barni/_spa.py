@@ -92,7 +92,6 @@ def getInitialPeaks(y, b, es, sensor, lld=45, mu=1):
 
     for i in range(0, len(u)):
         nxt = u[i] - b[i]
-
         # ignore flats
         if (current == nxt):
             prev = current
@@ -200,7 +199,7 @@ def addNeighborPeaks(peaks0, sensor):
         p2.append(Peak(p.energy + w, p.intensity, p.baseline))
     return p2
 
-
+# FIXME this function requires response to be in the peak, by addNeighborPeaks does not
 def combineNeighborPeaks(peaks, energyScale):
     """ Combine three neighboring peaks together using intensity for weighted average calculations.
 
@@ -293,8 +292,8 @@ def solve(spectrum, peaks, sensor, es, mu=1, lld=0):
         # FIXME we may want to compute the baseline here ?
         width = sensor.getResolution(pk.energy)
         peaksOut.append(arch.Peak(pk.energy, float(intensity[i]), 0, width))
+    # FIXME The outputs here are redundent (intensity is included in peaksOut)
     return baseline, intensity, peaksOut, S
-
 
 class SmoothPeakResult(arch.PeakResult):
     """ Smooth peak analysis implementation of a peak result.
@@ -405,6 +404,9 @@ class SmoothPeakAnalysis(arch.PeakAnalysis):
         self.startEnergy = 35
         self.endEnergy = 3000
         self.smoothingFactor = 3
+
+    def setSensor(self, sensor):
+        self.sensor = sensor
 
     def __analyze_spectrum(self, spectrum: Spectrum) -> arch.PeakResult:
         """ Performs peak extraction on the inputed spectrum

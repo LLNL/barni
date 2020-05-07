@@ -18,7 +18,7 @@ jobs:
 
   - script: |
       python -m pip install --upgrade pip
-      pip install tox
+      pip install nox
       pip install cython
     displayName: 'Install dependencies'
 

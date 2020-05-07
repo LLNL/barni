@@ -93,3 +93,5 @@ LLNL-CODE-805904
 .. _Codecov: https://codecov.io/gh/KaiTyrusNelson/barni
 .. |TestsCI| image:: https://dev.azure.com/TyrusMcnelson/Barni/_apis/build/status/KaiTyrusNelson.barni?branchName=master
 .. _TestsCI: https://dev.azure.com/TyrusMcnelson/Barni/_build/latest?definitionId=1&branchName=master
+.. |Docs| image:: https://img.shields.io/readthedocs/barni.svg
+.. _Docs: https://barni.readthedocs.io/en/latest/

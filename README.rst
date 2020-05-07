@@ -22,7 +22,7 @@ Summary
  <https://github.com/LLNL/barni/issues>`_
 :Documentation: `Full documentation`_
 :License: `MIT License`_
-:Build status:  |Azure|_ |Docs|_
+:Build status:  |TestsCI|_ |Docs|_
 :Quality status:  |Codecov|_ |lgtm_python|_ |lgtm_java|_ |lgtm_cpp|_
 
 
@@ -91,5 +91,5 @@ LLNL-CODE-805904
 .. _`MIT License`: https://github.com/KaiTyrusNelson/barni/blob/master/LICENSE
 .. |Codecov| image:: https://codecov.io/gh/KaiTyrusNelson/barni/branch/master/graph/badge.svg
 .. _Codecov: https://codecov.io/gh/KaiTyrusNelson/barni
-.. |TestsCI| image:: https://dev.azure.com/jpype-project/jpype/_apis/build/status/jpype-project.jpype?branchName=master
-.. _TestsCI: https://dev.azure.com/jpype-project/jpype/_build/latest?definitionId=1&branchName=master
+.. |TestsCI| image:: https://dev.azure.com/TyrusMcnelson/Barni/_apis/build/status/KaiTyrusNelson.barni?branchName=master
+.. _TestsCI: https://dev.azure.com/TyrusMcnelson/Barni/_build/latest?definitionId=1&branchName=master

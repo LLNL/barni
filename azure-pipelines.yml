@@ -32,11 +32,6 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
-
   - script: |
       python -m pip install --upgrade pip
       pip install tox
@@ -52,10 +47,6 @@ jobs:
     vmImage: 'vs2017-win2016'
 
   steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
 
   - script: |
       python -m pip install --upgrade pip
@@ -72,10 +63,6 @@ jobs:
     vmImage: 'macos-10.14'
 
   steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
 
   - script: |
       python -m pip install --upgrade pip

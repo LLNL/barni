@@ -23,8 +23,8 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox
-    displayName: 'nox'
+      nox --sessions coverage
+    displayName: 'noxcoverage'
   - script: bash <(curl -s https://codecov.io/bash) 
   
 - job: TESTLINUX
@@ -44,8 +44,8 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox
-    displayName: 'nox'
+      nox --sessions test
+    displayName: 'noxtest'
     
 - job: TESTWINDOWS
   pool:
@@ -64,8 +64,8 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox
-    displayName: 'nox'
+      nox --sessions test
+    displayName: 'noxtest'
 
 - job: TESTOSX
   pool:
@@ -84,5 +84,5 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox
-    displayName: 'nox'
+      nox --sessions test
+    displayName: 'noxtest'

@@ -7,34 +7,6 @@ trigger:
 - master
 
 jobs:
-- job: Job1
-  pool:
-    vmImage: 'ubuntu-latest'
-  strategy:
-    matrix:
-      Python35:
-        python.version: '3.5'
-      Python36:
-        python.version: '3.6'
-      Python37:
-        python.version: '3.7'
-
-  steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
-
-  - script: |
-      python -m pip install --upgrade pip
-      pip install tox
-      pip install cython
-    displayName: 'Install dependencies'
-
-  - script: |
-      tox
-    displayName: 'tox'
-
 - job: Coverage
   pool:
     vmImage: 'ubuntu-latest'
@@ -51,6 +23,66 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      tox
-    displayName: 'tox'
-  - script: bash <(curl -s https://codecov.io/bash)
+      nox
+    displayName: 'nox'
+  - script: bash <(curl -s https://codecov.io/bash) 
+  
+- job: TESTLINUX
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install tox
+      pip install cython
+    displayName: 'Install dependencies'
+
+  - script: |
+      nox
+    displayName: 'nox'
+    
+- job: TESTWINDOWS
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install tox
+      pip install cython
+    displayName: 'Install dependencies'
+
+  - script: |
+      nox
+    displayName: 'nox'
+
+- job: TESTOSX
+  pool:
+    vmImage: 'macos-10.14'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install nox
+      pip install cython
+    displayName: 'Install dependencies'
+
+  - script: |
+      nox
+    displayName: 'nox'

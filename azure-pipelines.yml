@@ -30,8 +30,21 @@ jobs:
 - job: TESTLINUX
   pool:
     vmImage: 'ubuntu-latest'
-
+  strategy:
+    matrix:
+      linux-3.5:
+        python.version: '3.5'
+      linux-3.6:
+        python.version: '3.6'
+      linux-3.7:
+        python.version: '3.7'
+      linux-3.8:
+        python.version: '3.8'
+        
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
   - script: |
       python -m pip install --upgrade pip
       pip install nox
@@ -39,15 +52,26 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions test
+      nox --sessions tests-'$(python.version)'
     displayName: 'noxtest'
     
 - job: TESTWINDOWS
   pool:
     vmImage: 'vs2017-win2016'
-
+  strategy:
+    matrix:
+      windows-3.5:
+        python.version: '3.5'
+      windows-3.6:
+        python.version: '3.6'
+      windows-3.7:
+        python.version: '3.7'
+      windows-3.8:
+        python.version: '3.8'
   steps:
-
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
   - script: |
       python -m pip install --upgrade pip
       pip install nox
@@ -55,15 +79,26 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions test
+      nox --sessions tests-'$(python.version)'
     displayName: 'noxtest'
 
 - job: TESTOSX
   pool:
     vmImage: 'macos-10.14'
-
+  strategy:
+    matrix:
+      OSX-3.5:
+        python.version: '3.5'
+      OSX-3.6:
+        python.version: '3.6'
+      OSX-3.7:
+        python.version: '3.7'
+      OSX-3.8:
+        python.version: '3.8'
   steps:
-
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
   - script: |
       python -m pip install --upgrade pip
       pip install nox
@@ -71,5 +106,5 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions test
+      nox --sessions tests-'$(python.version)'
     displayName: 'noxtest'

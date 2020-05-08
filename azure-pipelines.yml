@@ -25,7 +25,7 @@ jobs:
   - script: |
       nox --sessions coverage
     displayName: 'noxcoverage'
-  - script: bash <(curl -s https://codecov.io/bash) 
+  - script: bash <(curl -s https://codecov.io/bash) -f coverage.xml -X gcov
   
 - job: TESTLINUX
   pool:

@@ -32,8 +32,6 @@ jobs:
     vmImage: 'ubuntu-latest'
   strategy:
     matrix:
-      linux-3.5:
-        python.version: '3.5'
       linux-3.6:
         python.version: '3.6'
       linux-3.7:
@@ -60,8 +58,6 @@ jobs:
     vmImage: 'vs2017-win2016'
   strategy:
     matrix:
-      windows-3.5:
-        python.version: '3.5'
       windows-3.6:
         python.version: '3.6'
       windows-3.7:
@@ -87,8 +83,6 @@ jobs:
     vmImage: 'macos-10.14'
   strategy:
     matrix:
-      OSX-3.5:
-        python.version: '3.5'
       OSX-3.6:
         python.version: '3.6'
       OSX-3.7:

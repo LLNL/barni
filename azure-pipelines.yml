@@ -52,7 +52,7 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions tests-'$(python.version)'
+      nox --sessions tests-$(python.version)
     displayName: 'noxtest'
     
 - job: TESTWINDOWS
@@ -79,7 +79,7 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions tests-'$(python.version)'
+      nox --sessions tests-$(python.version)
     displayName: 'noxtest'
 
 - job: TESTOSX
@@ -106,5 +106,5 @@ jobs:
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions tests-'$(python.version)'
+      nox --sessions tests-$(python.version)
     displayName: 'noxtest'

@@ -58,16 +58,16 @@ Required Libraries
 Contributing
 ------------
 Contributing to BARNI is relatively easy.  Just send us a
-[pull request](https://help.github.com/articles/using-pull-requests/).
+`pull request <https://help.github.com/articles/using-pull-requests>`_.
 When you send your request, make ``develop`` the destination branch on the
-[barni repository](https://github.com/llnl/barni).
+`barni repository <https://github.com/llnl/barni>`_.
 
 Your PR must pass BARNI's unit tests and documentation tests, and must be
-[PEP 8](https://www.python.org/dev/peps/pep-0008/) compliant.  We enforce
+`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_ compliant.  We enforce
 these guidelines with Travis CI.  To
-run these tests locally simply use [tox](https://tox.readthedocs.io/en/latest/). 
+run these tests locally simply use `tox <https://tox.readthedocs.io/en/latest/>`_. 
 BARNI uses a rough approximation of the
-[Git Flow](http://nvie.com/posts/a-successful-git-branching-model/)
+`Git Flow <http://nvie.com/posts/a-successful-git-branching-model>`_
 branching model.  The ``develop`` branch contains the latest
 contributions, and ``master`` is always tagged and points to the latest
 stable release.

@@ -81,7 +81,7 @@ Authors
 License
 -------
 
-BARNI is released under an MIT license. For more details see the [LICENSE](/LICENSE) file.
+BARNI is released under an MIT license. For more details see the `MIT License`_ file.
 
 SPDX-License-Identifier: MIT
 

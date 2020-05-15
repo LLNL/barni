@@ -85,9 +85,9 @@ class  SpectrumTestCase(unittest.TestCase):
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
-        tmp = os.environ.get("TEMP", "build/test")
+        tmp = "build/test"
         os.makedirs(tmp, exist_ok=True)
-        with tempfile.NamedTemporaryFile(dir=tmp) as fp:
+        with open("build/test/spectrum.test", "w") as fp:
             self.spectrum.write(fp.name)
             sp2 = loadXml(fp.name)
             self.assertSequenceEqual(tuple(sp2.energyScale.getEdges()), self.edges)
@@ -119,9 +119,8 @@ class  SpectrumListTestCase(unittest.TestCase):
         sp_list = SpectrumList()
         sp_list.addSpectrum(spectrum)
         sp_list.addSpectrum(spectrum)
-        tmp = os.environ.get("TEMP", "build/test")
         os.makedirs(tmp, exist_ok=True)
-        with tempfile.NamedTemporaryFile(dir=tmp) as fp:
+        with open("build/test/spectrum.test", "w") as fp:
             sp_list.write(fp.name)
             sp_list2 = loadXml(fp.name)
             for sp in sp_list2:

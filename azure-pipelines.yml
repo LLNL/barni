@@ -69,6 +69,7 @@ jobs:
     inputs:
       versionSpec: '$(python.version)'
   - script: |
+      set TEMP="."
       python -m pip install --upgrade pip
       pip install cython
       pip install -r requirements.txt

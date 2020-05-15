@@ -70,12 +70,14 @@ jobs:
       versionSpec: '$(python.version)'
   - script: |
       python -m pip install --upgrade pip
-      pip install nox
       pip install cython
+      pip install -r requirements.txt
+      python setup.py sdist
+      pip install dist/BARNI-1.0.0.tar.gz
     displayName: 'Install dependencies'
 
   - script: |
-      nox --sessions tests-$(python.version)
+      python setup.py test
     displayName: 'noxtest'
 
 - job: TESTOSX

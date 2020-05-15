@@ -8,7 +8,7 @@ trigger:
 
 jobs:
 - job: Coverage
-  conditions: eq(0,1)
+  condition: eq(0,1)
   pool:
     vmImage: 'ubuntu-latest'
 
@@ -29,7 +29,7 @@ jobs:
   - script: bash <(curl -s https://codecov.io/bash) -f coverage.xml -X gcov
   
 - job: TESTLINUX
-  conditions: eq(0,1)
+  condition: eq(0,1)
   pool:
     vmImage: 'ubuntu-latest'
   strategy:
@@ -85,7 +85,7 @@ jobs:
     displayName: 'noxtest'
 
 - job: TESTOSX
-  conditions: eq(0,1)
+  condition: eq(0,1)
   pool:
     vmImage: 'macos-10.14'
   strategy:

@@ -119,7 +119,7 @@ class  SpectrumListTestCase(unittest.TestCase):
         sp_list = SpectrumList()
         sp_list.addSpectrum(spectrum)
         sp_list.addSpectrum(spectrum)
-        os.makedirs(tmp, exist_ok=True)
+        os.makedirs("build/test", exist_ok=True)
         with open("build/test/spectrum.test", "w") as fp:
             sp_list.write(fp.name)
             sp_list2 = loadXml(fp.name)

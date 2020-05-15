@@ -86,7 +86,7 @@ class  SpectrumTestCase(unittest.TestCase):
         """ Write and read to temporaty file and compare
         """
         tmp = "build/test"
-        os.makedirs(tmp, exist_ok=True)
+        os.makedirs("build/test", exist_ok=True)
         with open("build/test/spectrum.test", "w") as fp:
             self.spectrum.write(fp.name)
             sp2 = loadXml(fp.name)

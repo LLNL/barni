@@ -61,7 +61,7 @@ class EnergyScaleTestCase(unittest.TestCase):
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
-        os.makedirs(tmp, exist_ok=True)
+        os.makedirs("build/test", exist_ok=True)
         with open("build/test/bins.test","w") as fp:
             self.energy_scale.write(fp.name)
             es = loadXml(fp.name)

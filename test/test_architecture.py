@@ -49,7 +49,7 @@ class  PeakTestCase(unittest.TestCase):
         self.peak = Peak(662, 1, 0, 10)
 
     def test_toXml(self):
-        os.makedirs(tmp, exist_ok=True)
+        os.makedirs("build/test", exist_ok=True)
         with open("build/test/result.test", "w") as fp:
             self.peak.write(fp.name)
             # FIXME Loader for Peak does not exist.
@@ -64,7 +64,7 @@ class  NuclideResultTestCase(unittest.TestCase):
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
-        os.makedirs(tmp, exist_ok=True)
+        os.makedirs("build/test", exist_ok=True)
         with open("build/test/result.test", "w") as fp:
             self.nr.write(fp.name)
             nr = loadXml(fp.name)

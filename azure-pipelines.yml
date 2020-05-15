@@ -8,6 +8,7 @@ trigger:
 
 jobs:
 - job: Coverage
+  conditions: eq(0,1)
   pool:
     vmImage: 'ubuntu-latest'
 
@@ -28,6 +29,7 @@ jobs:
   - script: bash <(curl -s https://codecov.io/bash) -f coverage.xml -X gcov
   
 - job: TESTLINUX
+  conditions: eq(0,1)
   pool:
     vmImage: 'ubuntu-latest'
   strategy:
@@ -54,6 +56,8 @@ jobs:
     displayName: 'noxtest'
     
 - job: TESTWINDOWS
+  variables:
+    TEMP: .
   pool:
     vmImage: 'vs2017-win2016'
   strategy:
@@ -69,7 +73,6 @@ jobs:
     inputs:
       versionSpec: '$(python.version)'
   - script: |
-      set TEMP="."
       python -m pip install --upgrade pip
       pip install cython
       pip install -r requirements.txt
@@ -82,6 +85,7 @@ jobs:
     displayName: 'noxtest'
 
 - job: TESTOSX
+  conditions: eq(0,1)
   pool:
     vmImage: 'macos-10.14'
   strategy:

@@ -30,7 +30,6 @@
 import unittest
 from barni import EnergyScale
 from barni import loadXml
-import tempfile
 import os
 
 class EnergyScaleTestCase(unittest.TestCase):

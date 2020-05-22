@@ -28,7 +28,6 @@
 ###############################################################################
 
 import unittest
-import tempfile
 from barni import Spectrum, EnergyScale, loadXml, SpectrumList
 import os
 import warnings

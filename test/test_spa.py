@@ -28,7 +28,7 @@
 ###############################################################################
 
 import unittest
-import tempfile
+import os
 import numpy as np
 import pathlib
 
@@ -150,7 +150,8 @@ class SmoothPeakAnalysisTestCase(unittest.TestCase):
             self.assertAlmostEqual(continuum_sum, 7430.0220049)
 
     def test_result_toXml(self):
-        with tempfile.NamedTemporaryFile() as fp:
+        os.makedirs("build/test", exist_ok=True)
+        with open("build/test/spectrum.test", "w") as fp:
             self.result.write(fp.name)
             r = loadXml(fp.name)
             attributes = ["sample", "intrinsic"]

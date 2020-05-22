@@ -32,7 +32,6 @@ from barni import RegionOfInterest, Peak
 from barni._architecture import NuclideResult
 from barni import loadXml
 import os
-import tempfile
 
 
 

@@ -31,7 +31,10 @@ import unittest
 from barni import RegionOfInterest, Peak
 from barni._architecture import NuclideResult
 from barni import loadXml
+import os
 import tempfile
+
+
 
 class  RegionOfInterestTestCase(unittest.TestCase):
     def setUp(self):
@@ -46,7 +49,8 @@ class  PeakTestCase(unittest.TestCase):
         self.peak = Peak(662, 1, 0, 10)
 
     def test_toXml(self):
-        with tempfile.NamedTemporaryFile() as fp:
+        os.makedirs("build/test", exist_ok=True)
+        with open("build/test/result.test", "w") as fp:
             self.peak.write(fp.name)
             # FIXME Loader for Peak does not exist.
 
@@ -60,7 +64,8 @@ class  NuclideResultTestCase(unittest.TestCase):
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
-        with tempfile.NamedTemporaryFile() as fp:
+        os.makedirs("build/test", exist_ok=True)
+        with open("build/test/result.test", "w") as fp:
             self.nr.write(fp.name)
             nr = loadXml(fp.name)
             self.assertEqual(nr.score, 0.9)

@@ -1,0 +1,108 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- master
+
+jobs:
+- job: Coverage
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.8'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install nox
+      pip install cython
+    displayName: 'Install dependencies'
+
+  - script: |
+      nox --sessions coverage
+    displayName: 'noxcoverage'
+  - script: bash <(curl -s https://codecov.io/bash) -f coverage.xml -X gcov
+  
+- job: TESTLINUX
+  pool:
+    vmImage: 'ubuntu-latest'
+  strategy:
+    matrix:
+      linux-3.6:
+        python.version: '3.6'
+      linux-3.7:
+        python.version: '3.7'
+      linux-3.8:
+        python.version: '3.8'
+        
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install nox
+      pip install cython
+    displayName: 'Install dependencies'
+
+  - script: |
+      nox --sessions tests-$(python.version)
+    displayName: 'noxtest'
+    
+- job: TESTWINDOWS
+  variables:
+    TEMP: .
+  pool:
+    vmImage: 'vs2017-win2016'
+  strategy:
+    matrix:
+      windows-3.6:
+        python.version: '3.6'
+      windows-3.7:
+        python.version: '3.7'
+      windows-3.8:
+        python.version: '3.8'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install cython
+      pip install -r requirements.txt
+      python setup.py sdist
+      pip install dist/BARNI-1.0.0.tar.gz
+    displayName: 'Install dependencies'
+
+  - script: |
+      python setup.py test
+    displayName: 'noxtest'
+
+- job: TESTOSX
+  pool:
+    vmImage: 'macos-10.14'
+  strategy:
+    matrix:
+      OSX-3.6:
+        python.version: '3.6'
+      OSX-3.7:
+        python.version: '3.7'
+      OSX-3.8:
+        python.version: '3.8'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install nox
+      pip install cython
+    displayName: 'Install dependencies'
+
+  - script: |
+      nox --sessions tests-$(python.version)
+    displayName: 'noxtest'

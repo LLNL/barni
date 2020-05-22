@@ -21,3 +21,5 @@ pyinstaller/
 extensions/*.c
 .coverage
 htmlcov/
+.nox/
+coverage.xml

@@ -23,8 +23,6 @@ Summary
 :Documentation: `Full documentation`_
 :License: `MIT License`_
 :Build status:  |TestsCI|_ |Docs|_
-:Quality status:  |Codecov|_ |lgtm_python|_ |lgtm_java|_ |lgtm_cpp|_
-
 
 
 Directory Structure
@@ -88,10 +86,8 @@ SPDX-License-Identifier: MIT
 LLNL-CODE-805904
 
 .. _`Full documentation`: https://barni.readthedocs.io/en/latest/
-.. _`MIT License`: https://github.com/KaiTyrusNelson/barni/blob/master/LICENSE
-.. |Codecov| image:: https://codecov.io/gh/KaiTyrusNelson/barni/branch/master/graph/badge.svg
-.. _Codecov: https://codecov.io/gh/KaiTyrusNelson/barni
-.. |TestsCI| image:: https://dev.azure.com/TyrusMcnelson/Barni/_apis/build/status/KaiTyrusNelson.barni?branchName=master
-.. _TestsCI: https://dev.azure.com/TyrusMcnelson/Barni/_build/latest?definitionId=1&branchName=master
+.. _`MIT License`: https://github.com/LLNL/barni/blob/develop/LICENSE
+.. |TestsCI| image:: https://dev.azure.com/monterial1/barni/_apis/build/status/LLNL.barni?branchName=develop
+.. _TestsCI: https://dev.azure.com/monterial1/barni/_build
 .. |Docs| image:: https://img.shields.io/readthedocs/barni.svg
 .. _Docs: https://barni.readthedocs.io/en/latest/

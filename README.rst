@@ -2,10 +2,8 @@ BARNI - Benchmark Algorithm for RadioNuclide Identification
 ========================================================
 
 BARNI is a software for radionuclide identification from gamma-ray spectra. 
-It uses a machine learning approach to train 
-for a variaity of spectroscopic gamma-ray radiation detectors. 
 
-[![Build Status](https://travis-ci.org/LLNL/barni.svg?branch=develop)](https://travis-ci.org/LLNL/barni)
+It uses a machine learning approach to train for a variaity of spectroscopic gamma-ray radiation detectors.
 
 Introduction
 ------------
@@ -28,42 +26,6 @@ Summary
 :Quality status:  |Codecov|_ |lgtm_python|_ |lgtm_java|_ |lgtm_cpp|_
 
 
-Required Libraries
-------------------
-* Python 3.6+
-* Numpy 1.17+
-* SciKit-Learn 0.20+
-* Bokeh 1.4+
-* Pandas 0.25+
-
-Contributing
-------------
-Contributing to BARNI is relatively easy.  Just send us a
-`pull request <https://help.github.com/articles/using-pull-requests>`_.
-When you send your request, make ``develop`` the destination branch on the
-<<<<<<< HEAD:README.md
-[barni repository](https://github.com/llnl/barni). Your PR must pass BARNI's unit tests,
-which are enforce with Travis CI. To run these tests locally simply use the provided 
-[tox](https://tox.readthedocs.io/en/latest/) configuration. 
-
-BARNI's style diverts from Python standard [PEP8](https://www.python.org/dev/peps/pep-0008/) in method name convention,
-which should be CamelCase instead of lowercase. This is to improve readability, and to distinguish
-methods from instance variables, which should be lower case. The docstrings should 
-follow the [Google style](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
-
-=======
-`barni repository <https://github.com/llnl/barni>`_.
-
-Your PR must pass BARNI's unit tests and documentation tests, and must be
-`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_ compliant.  We enforce
-these guidelines with Travis CI.  To
-run these tests locally simply use `tox <https://tox.readthedocs.io/en/latest/>`_. 
->>>>>>> kai/master:README.rst
-BARNI uses a rough approximation of the
-`Git Flow <http://nvie.com/posts/a-successful-git-branching-model>`_
-branching model.  The ``develop`` branch contains the latest
-contributions, and ``master`` is always tagged and points to the latest
-stable release.
 
 Directory Structure
 -------------------
@@ -80,8 +42,35 @@ In addition, there are various files on the top directory:
 * `barni_cli.spec`: PyInstaller configuration file.
 * `pyinstall.py`: PyInstaller build script. 
 * `barni.yml`: Anaconda environment file.
+* `nose2.cfg`: Nose2 (unit test) configuration file. 
 * `setup.py`: BARNI package installation script. 
 * `LICENSE`: The liscence description. 
+
+
+Required Libraries
+------------------
+* Python 3.7+
+* Numpy 1.17+
+* SciKit-Learn 0.20+
+* Bokeh 1.4+
+* Pandas 0.25+
+
+Contributing
+------------
+Contributing to BARNI is relatively easy.  Just send us a
+`pull request <https://help.github.com/articles/using-pull-requests>`_.
+When you send your request, make ``develop`` the destination branch on the
+`barni repository <https://github.com/llnl/barni>`_.
+
+Your PR must pass BARNI's unit tests and documentation tests, and must be
+`PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_ compliant.  We enforce
+these guidelines with Travis CI.  To
+run these tests locally simply use `tox <https://tox.readthedocs.io/en/latest/>`_. 
+BARNI uses a rough approximation of the
+`Git Flow <http://nvie.com/posts/a-successful-git-branching-model>`_
+branching model.  The ``develop`` branch contains the latest
+contributions, and ``master`` is always tagged and points to the latest
+stable release.
 
 Authors
 -------

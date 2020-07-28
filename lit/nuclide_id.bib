@@ -1,0 +1,160 @@
+% Encoding: UTF-8
+
+@InProceedings{Aarnio1994,
+  author    = {Aarnio, P.~A. and Ala-Heikkilae, J.~J. and Hakulinen, T.~T. and Routti, J.~T.},
+  title     = {Expert system for nuclide identification in gamma spectrum analysis},
+  booktitle = {Presented at the Conference on Methods and Applications of Radioanalytical Chemistry - 3, Kailua-Kona, Hawaii, 10-16 Apr. 1994},
+  year      = {1994},
+  pages     = {10-16},
+  abstract  = {Gamma spectrum analysis is a standard tool in many fields today. Often
+	the task is to find out the exact composition and concentrations
+	of radionuclides in a measured spectrum. A full manual identification
+	of a complex spectrum requires considerable expertise on the part
+	of the laboratory personnel and takes usually several hours.
+	
+	An expert system coupled with the gamma spectrum analysis system SAMPO
+	has been developed for automating the qualitative identification
+	of radionuclides as well as for determinating the quantitative parameters
+	of the spectrum components. The program is written in C-language
+	and runs in various environments ranging from PCs to UNIX workstations.
+	The expert system utilizes a complete gamma library with over 2600
+	nuclides and 80 000 lines, and a rule base of about fifty criteria
+	including energies, relative peak intensities, genesis modes, half-lives,
+	parent-daughter relationships etc. The rule base is furthermore extensible
+	by the user.
+	
+	The performance of the expert system has been evaluated using test
+	cases from environmental samples, sets of standard sources and activation
+	analysis measurements, which have been carefully analyzed manually.
+	Also. synthesized spectra have been used, where the exact composition
+	of the sample is known in advance. Results from these tests show
+	that the expert system performs very well, even for difficult spectra.},
+  adsnote   = {Provided by the SAO/NASA Astrophysics Data System},
+  adsurl    = {http://adsabs.harvard.edu/abs/1994marc.confQ..10A},
+  groups    = {peak search},
+  keywords  = {COMPUTER PROGRAMS, EXPERT SYSTEMS, GAMMA RAY SPECTRA, NUCLIDES, RADIOACTIVE ISOTOPES, SPECTRUM ANALYSIS, ACTIVATION ANALYSIS, C (PROGRAMMING LANGUAGE), CHEMICAL ANALYSIS, HALF LIFE, IDENTIFYING, PERFORMANCE TESTS},
+  owner     = {nelson85},
+  timestamp = {2009.05.27},
+  url       = {http://www.springerlink.com/content/w2np2q7864u72372/},
+}
+
+@Article{Aarnio1992,
+  author    = {Aarnio, P. and Hakulinen, T. and Routti, J.},
+  title     = {Expert system for nuclide identification and interpretation of gamma-spectrum analysis},
+  journal   = {Journal of Radioanalytical and Nuclear Chemistry},
+  year      = {1992},
+  volume    = {160},
+  number    = {1},
+  pages     = {245--252},
+  month     = jul,
+  abstract  = {Radionuclide identification from a measured gamma-spectrum
+	is an iterative process, where the analyst aims to find correct nuclides
+	by decreasing the amount of possibilities by trial and error. Although
+	the process of identification is quite complex, it can be formulated
+	using rules of thumb combined with exact mathematical analysis. Thus,
+	an expert system can be built, where the knowledge of a human expert
+	is converted to explicit rules. In this paper expert system SHAMAN
+	is presented, which carriess out the qualitative nuclide identification
+	and activity determination with minimum of user intervention. The
+	reasoning process is performed by an inference engine written in
+	C-language. The system uses a database containing over 2000 radionuclides
+	with about 48 000 gamma-transitions. Spectra are provided in preprocessed
+	format, where peak energies, intensities and backgoounds with respective
+	error estimates have been calculated by a separate analysis program.},
+  groups    = {peak search},
+  owner     = {nelson85},
+  timestamp = {2010.06.11},
+  url       = {http://dx.doi.org/10.1007/BF02041674},
+}
+
+@Article{Kim2019,
+  author   = {Jinhwan Kim and Kyeongjin Park and Gyuseong Cho},
+  title    = {Multi-radioisotope identification algorithm using an artificial neural network for plastic gamma spectra},
+  journal  = {Applied Radiation and Isotopes},
+  year     = {2019},
+  volume   = {147},
+  pages    = {83 - 90},
+  issn     = {0969-8043},
+  abstract = {Radioisotope identification using a plastic scintillation detector has been a challenging issue because of the poor spectral resolution and low cross-sections of these types of detectors when used for photoelectric absorption. In this paper, we propose an algorithm that identifies a single radioisotope and multiple radioisotopes from the gamma spectrum of a plastic scintillator using an artificial neural network. The spectra were simulated using Monte Carlo N-Particle Transport Code 6 to formulate the training set, and the spectra were measured by a two-inch EJ-200 to create the test set (1440 spectra in total). The ANN-based algorithm presented here ensures an identification accuracy of 98.9% for a single radioisotope and 99.1% for multiple radioisotopes. Even if the spectra were intentionally shifted by 36â¯keV for low and high energies, the trained ANN predicts radioisotopes with high accuracy. In addition, we have determined the minimal required number of detected counts to identify the radioisotope with 5% false negative and false positive.},
+  doi      = {https://doi.org/10.1016/j.apradiso.2019.01.005},
+  groups   = {Neural Networks},
+  url      = {http://www.sciencedirect.com/science/article/pii/S0969804318304858},
+}
+
+@Article{He2018,
+  author    = {He, Jianping and Tang, Xiaobin and Gong, Pin and Wang, Peng and Wen, Liangsheng and Huang, Xi and Han, Zhenyang and Yan, Wen and Gao, Le},
+  journal   = {Annals of Nuclear Energy},
+  title     = {Rapid radionuclide identification algorithm based on the discrete cosine transform and BP neural network},
+  year      = {2018},
+  pages     = {1--8},
+  volume    = {112},
+  abstract  = {Traditional radionuclide identification algorithm based on peak detection cannot recognize radioactive material in a short time. This study proposes a rapid radionuclide identification algorithm based on the discrete cosine transform and error back propagation neural network. Detection rate and accurate radionuclide identification distance were used to evaluate the proposed method. Experimental results show that the extracted feature vector of the spectrum is not influenced by time, activity, and distance. The proposed algorithm obtained better results in a relatively authentic environment, and it has the ability to predict the isotopic compositions of the mixed spectrum. The proposed method has a better identification performance for the spectrum of radionuclide masked by shielding material except the gamma rays emitted by related radionuclide are significantly shielded. It is also particularly recommended for the fast radionuclide identification of spectroscopic radiation portal monitors, radioisotope identification devices, and other radiation monitoring instruments.},
+  doi       = {https://doi.org/10.1016/j.anucene.2017.09.032},
+  groups    = {Neural Networks},
+  publisher = {Elsevier},
+}
+
+@Article{Liang2019,
+  author    = {Liang, Dajian and Gong, Pin and Tang, Xiaobin and Wang, Peng and Gao, Le and Wang, Zeyu and Zhang, Rui},
+  journal   = {Annals of Nuclear Energy},
+  title     = {Rapid nuclide identification algorithm based on convolutional neural network},
+  year      = {2019},
+  pages     = {483--490},
+  volume    = {133},
+  abstract  = {Rapid nuclide identification is crucial in improving the performance of radioactivity monitoring. Rapid measurement of considerable fluctuation and noise in gamma-ray spectra causes difficulties in nuclide identification. Current methods require noise removal, background subtraction, feature extraction, and the information of low-count channels may be lost during these processes. In this study, we developed a rapid nuclide identification method based on convolutional neural network (CNN). A dataset was constructed using simulation method for CNN training. The algorithm was evaluated with different gamma-ray spectra measured under different times, distances, and mixed radioactive sources. Results showed that the algorithm has high recognition accuracy for low count rate gamma-ray spectra, and which can be used to improve the identification performance of rapid radiation monitoring.},
+  doi       = {https://doi.org/10.1016/j.anucene.2019.05.051},
+  groups    = {Neural Networks},
+  publisher = {Elsevier},
+}
+
+@Article{Kamuda2020,
+  author    = {Kamuda, Mark and Zhao, Jifu and Huff, Kathryn},
+  journal   = {Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment},
+  title     = {A comparison of machine learning methods for automated gamma-ray spectroscopy},
+  year      = {2020},
+  pages     = {161385},
+  volume    = {954},
+  abstract  = {Pattern recognition algorithms such as artificial neural networks (NNs) and convolution neural networks (CNNs) are prime candidates to perform automated gamma-ray spectroscopy. The way these models train and operate mimic how trained spectroscopists identify spectra. These models have shown promise in identifying gamma-ray spectra with large calibration drift and unknown background radiation fields. In this work, two algorithms for mixtures of radioisotopes based on NN and CNN are presented and evaluated.},
+  doi       = {https://doi.org/10.1016/j.nima.2018.10.063},
+  groups    = {Neural Newtorks},
+  publisher = {Elsevier},
+}
+
+@Article{Kamuda2017,
+  author    = {Kamuda, Mark and Stinnett, Jacob and Sullivan, CJ},
+  journal   = {IEEE Transactions on Nuclear Science},
+  title     = {Automated isotope identification algorithm using artificial neural networks},
+  year      = {2017},
+  number    = {7},
+  pages     = {1858--1864},
+  volume    = {64},
+  abstract  = {There is a need to develop an algorithm that can determine the relative activities of radioisotopes in a large data set of low-resolution gamma-ray spectra that contain a mixture of many radioisotopes. Low-resolution gamma-ray spectra that contain mixtures of radioisotopes often exhibit feature overlap, requiring algorithms that can analyze these features when overlap occurs. While machine learning and pattern recognition algorithms have shown promise for the problem of radioisotope identification, their ability to identify and quantify mixtures of radioisotopes has not been studied. Because machine-learning algorithms use abstract features of the spectrum, such as the shape of overlapping peaks and Compton continuum, they are a natural choice for analyzing radioisotope mixtures. An artificial neural network (ANN) has been trained to calculate the relative activities of 32 radioisotopes in a spectrum. The ANN is trained with simulated gamma-ray spectra, allowing easy expansion of the library of target radioisotopes. In this paper, we present our initial algorithms based on an ANN and evaluate them against a series of measured and simulated spectra.},
+  doi       = {10.1109/TNS.2017.2693152},
+  groups    = {Neural Networks},
+  publisher = {IEEE},
+}
+
+@Article{abdel1997determination,
+  author    = {Abdel-Aal, RE and Al-Haddad, MN},
+  journal   = {Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment},
+  title     = {Determination of radioisotopes in gamma-ray spectroscopy using abductive machine learning},
+  year      = {1997},
+  number    = {2},
+  pages     = {275--288},
+  volume    = {391},
+  abstract  = {An algorithmic approach has been adopted for many years for identifying and quantifying radioisotopes in high-resolution gamma-ray spectra. Complexity of the technique, particularly when used with lower resolution detectors, warrants looking for machine-learning alternatives where intensive computations are required only during training, while actual sample analysis is greatly simplified. This should be advantageous in developing simple portable systems for fast online analysis of large numbers of samples, particularly in situations where accuracy can be traded off for speed and simplicity. Solutions based on neural networks have been reported in the literature. This paper describes the use of abductive networks which offer shorter training times and a simpler and more automated approach to model synthesis. The Abductory Induction Mechanism (AIM)1 tool was used to build models for determining isotopes in both single-and multiple-isotope samples represented by spectra from an NaI (Tl) detector. Inspite of a 50-fold poorer resolution for the AIM spectral data, AIM results are adequate, with average errors ranging between 11.8% and 20.5% for a number of simulated multi-isotope cocktails.},
+  doi       = {https://doi.org/10.1016/S0168-9002(97)00391-4},
+  publisher = {Elsevier},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
+
+@Comment{jabref-meta: grouping:
+0 AllEntriesGroup:;
+1 StaticGroup:Algorithm\;0\;0\;\;\;\;;
+2 StaticGroup:Neural Networks\;0\;1\;\;\;\;;
+}
+
+@Comment{jabref-meta: groupsversion:
+3;
+}

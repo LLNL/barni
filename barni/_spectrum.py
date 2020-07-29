@@ -67,7 +67,7 @@ class Spectrum(Serializable):
         title (str): String associated with the spectra.
     """
 
-    def __init__(self, counts, energyScale, rt=1, lt=1, distance=None, gamma_dose=None, title=None):
+    def __init__(self, counts, energyScale : EnergyScale, rt=1, lt=1, distance=None, gamma_dose=None, title=None):
         self.counts = np.array(counts)
         self.energyScale = energyScale
         self.livetime = lt
@@ -75,6 +75,14 @@ class Spectrum(Serializable):
         self.distance = distance
         self.gamma_dose = gamma_dose
         self.title = title
+
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, Spectrum):
+            is_equal = (np.allclose(self.counts, other.counts) and self.energyScale == self.energyScale
+                           and self.livetime == other.livetime and self.realtime == other.realtime)
+            return is_equal
+        return False
 
     def getIntegral(self, e1, e2):
         """

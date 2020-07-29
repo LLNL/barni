@@ -105,6 +105,7 @@ class RandomForestClassifiers(arch.Classifier):
         rf = RandomForestClassifier(**kargs)
         cls = rf.fit(features, truth)
         cls.n_jobs = 1  # bug with predictions being slow due to thread-locking
+        self.setThreshold(0.5, nuclide) # default threshold of 0.5
         self._classifiers[nuclide] = cls
 
     def train_all(self, features: DataFrame, truth: DataFrame, **kargs):

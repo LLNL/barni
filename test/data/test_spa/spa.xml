@@ -1,0 +1,12 @@
+<smoothPeakAnalysis>
+	<sensor>
+		<gaussianSensorModel>
+			<resolution>0.055</resolution>
+            <wideningPower>0.5</wideningPower>
+            <electronicNoise>0</electronicNoise>
+		</gaussianSensorModel>
+	</sensor>
+	<startEnergy>45</startEnergy>
+	<endEnergy>3000</endEnergy>
+	<smoothingFactor>3</smoothingFactor>
+</smoothPeakAnalysis>

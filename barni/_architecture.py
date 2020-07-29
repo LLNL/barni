@@ -173,6 +173,14 @@ class Peak(Serializable):
         self.baseline = baseline
         self.width = width
 
+    def __eq__(self, other):
+        if isinstance(other, Peak):
+            return (self.energy == other.energy and
+                    self.intensity == other.intensity and
+                    self.baseline == other.baseline and
+                    self.width == other.width)
+        return False
+
     def __str__(self):
         return "energy %f, intensity %f, width %f" % (self.energy, self.intensity, self.width)
 

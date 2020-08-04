@@ -23,3 +23,6 @@ extensions/*.c
 htmlcov/
 .nox/
 coverage.xml
+lit/*.bak
+lit/*.sav
+

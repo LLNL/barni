@@ -178,7 +178,7 @@ def loadIdentificationInput(context, element):
         if node.tagName == "distance":
             out.distance = float(node.firstChild.nodeValue)
             continue
-        if node.tagName == "label":
+        if node.tagName.lower() == "label":
             out.label = loadLabel(context, node)
             continue
         context.raiseElementError(element, node)

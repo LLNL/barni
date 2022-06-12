@@ -30,7 +30,7 @@
 import unittest
 from barni import EnergyScale
 from barni import loadXml
-import tempfile
+import os
 
 class EnergyScaleTestCase(unittest.TestCase):
     def setUp(self):
@@ -60,7 +60,8 @@ class EnergyScaleTestCase(unittest.TestCase):
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
-        with tempfile.NamedTemporaryFile() as fp:
+        os.makedirs("build/test", exist_ok=True)
+        with open("build/test/bins.test","w") as fp:
             self.energy_scale.write(fp.name)
             es = loadXml(fp.name)
             self.assertSequenceEqual(tuple(es.getEdges()), tuple(self.energy_scale.getEdges()))

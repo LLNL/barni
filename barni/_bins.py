@@ -53,6 +53,11 @@ class EnergyScale(Serializable):
     def __init__(self, edges):
         self._edges = np.array(edges)
 
+    def __eq__(self, other):
+        if isinstance(other, EnergyScale):
+            return np.allclose(self._edges, other._edges)
+        return False
+
     @staticmethod
     def newScale(start, end, startStep, endStep):
         ''' Produce a new energy scale given a start and end range with a initial bin width and a final bin width.

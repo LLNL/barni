@@ -28,8 +28,8 @@
 ###############################################################################
 
 import unittest
-import tempfile
 from barni import Spectrum, EnergyScale, loadXml, SpectrumList
+import os
 import warnings
 
 class  SpectrumTestCase(unittest.TestCase):
@@ -84,7 +84,9 @@ class  SpectrumTestCase(unittest.TestCase):
     def test_toXml(self):
         """ Write and read to temporaty file and compare
         """
-        with tempfile.NamedTemporaryFile() as fp:
+        tmp = "build/test"
+        os.makedirs("build/test", exist_ok=True)
+        with open("build/test/spectrum.test", "w") as fp:
             self.spectrum.write(fp.name)
             sp2 = loadXml(fp.name)
             self.assertSequenceEqual(tuple(sp2.energyScale.getEdges()), self.edges)
@@ -116,8 +118,8 @@ class  SpectrumListTestCase(unittest.TestCase):
         sp_list = SpectrumList()
         sp_list.addSpectrum(spectrum)
         sp_list.addSpectrum(spectrum)
-
-        with tempfile.NamedTemporaryFile() as fp:
+        os.makedirs("build/test", exist_ok=True)
+        with open("build/test/spectrum.test", "w") as fp:
             sp_list.write(fp.name)
             sp_list2 = loadXml(fp.name)
             for sp in sp_list2:
